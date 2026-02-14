@@ -805,425 +805,424 @@
     </footer>
 
     <!-- React Booking Component -->
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+   <script type="text/babel">
+    const { useState } = React;
 
-        // CONFIGURATION - CUSTOMIZE THESE!
-        const CONFIG = {
-            hosts: [
-{ id: 1, name: 'Jānis Začs', email: 'janiszacs@gmail.com' },
-        { id: 2, name: 'Lielisks vadītājs 2', email: 'janiszacs@gmail.com' }
-    ],
-    maxBookingsPerDay: 2,
-    minAdvanceBooking: 2,
-    maxAdvanceBooking: 90
+    // CONFIGURATION
+    const CONFIG = {
+        hosts: [
+            { id: 1, name: 'Jānis Začs', email: 'janiszacs@gmail.com' },
+            { id: 2, name: 'Lielisks vadītājs 2', email: 'janiszacs@gmail.com' }
+        ],
+        maxBookingsPerDay: 2,
+        minAdvanceBooking: 2,
+        maxAdvanceBooking: 90
+    };
+
+    // MOCK DATA
+    const mockBookings = {
+        '2026-02-15': [1, 2],
+        '2026-02-20': [1],
+        '2026-02-22': [2],
+        '2026-02-28': [1, 2],
+        '2026-03-05': [1],
+        '2026-03-10': [2]
+    };
+
+    function BookingApp() {
+        const [currentDate, setCurrentDate] = useState(new Date());
+        const [selectedDate, setSelectedDate] = useState(null);
+        const [selectedHost, setSelectedHost] = useState(null);
+        const [formData, setFormData] = useState({
+            name: '',
+            email: '',
+            phone: '',
+            eventType: 'corporate',
+            guests: 30,
+            notes: ''
+        });
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [submitSuccess, setSubmitSuccess] = useState(false);
+        const [error, setError] = useState(null);
+        const [aiRecommendation, setAiRecommendation] = useState('');
+
+        const getDaysInMonth = (date) => {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+            
+            return { daysInMonth, startingDayOfWeek };
         };
 
-        // MOCK DATA - Replace with real Google Calendar API
-        const mockBookings = {
-            '2026-02-15': [1, 2],
-            '2026-02-20': [1],
-            '2026-02-22': [2, 3],
-            '2026-02-28': [1, 2, 3],
-            '2026-03-05': [1],
-            '2026-03-10': [2, 3]
+        const isDateAvailable = (dateStr) => {
+            const date = new Date(dateStr);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (date < today) return false;
+            
+            const minDate = new Date(today);
+            minDate.setDate(minDate.getDate() + CONFIG.minAdvanceBooking);
+            if (date < minDate) return false;
+            
+            const maxDate = new Date(today);
+            maxDate.setDate(maxDate.getDate() + CONFIG.maxAdvanceBooking);
+            if (date > maxDate) return false;
+            
+            const bookedHosts = mockBookings[dateStr] || [];
+            return bookedHosts.length < CONFIG.hosts.length;
         };
 
-        function BookingApp() {
-            const [currentDate, setCurrentDate] = useState(new Date());
-            const [selectedDate, setSelectedDate] = useState(null);
-            const [selectedHost, setSelectedHost] = useState(null);
-            const [formData, setFormData] = useState({
-                name: '',
-                email: '',
-                phone: '',
-                eventType: 'corporate',
-                guests: 30,
-                notes: ''
-            });
-            const [isSubmitting, setIsSubmitting] = useState(false);
-            const [submitSuccess, setSubmitSuccess] = useState(false);
-            const [error, setError] = useState(null);
-            const [aiRecommendation, setAiRecommendation] = useState('');
+        const getAvailableHosts = (dateStr) => {
+            const bookedHosts = mockBookings[dateStr] || [];
+            return CONFIG.hosts.filter(host => !bookedHosts.includes(host.id));
+        };
 
-            const getDaysInMonth = (date) => {
-                const year = date.getFullYear();
-                const month = date.getMonth();
-                const firstDay = new Date(year, month, 1);
-                const lastDay = new Date(year, month + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                const startingDayOfWeek = firstDay.getDay();
+        const handleDateClick = (day) => {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            
+            if (isDateAvailable(dateStr)) {
+                setSelectedDate(dateStr);
+                setSelectedHost(null);
+                setError(null);
                 
-                return { daysInMonth, startingDayOfWeek };
-            };
+                const availableHosts = getAvailableHosts(dateStr);
+                if (availableHosts.length === 1) {
+                    setSelectedHost(availableHosts[0].id);
+                    setAiRecommendation(`💡 Šajā datumā pieejams: ${availableHosts[0].name}`);
+                } else {
+                    setAiRecommendation(`✨ Pieejami ${availableHosts.length} vadītāji. Izvēlieties sev tīkamāko!`);
+                }
+            }
+        };
 
-            const isDateAvailable = (dateStr) => {
-                const date = new Date(dateStr);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                
-                if (date < today) return false;
-                
-                const minDate = new Date(today);
-                minDate.setDate(minDate.getDate() + CONFIG.minAdvanceBooking);
-                if (date < minDate) return false;
-                
-                const maxDate = new Date(today);
-                maxDate.setDate(maxDate.getDate() + CONFIG.maxAdvanceBooking);
-                if (date > maxDate) return false;
-                
-                const bookedHosts = mockBookings[dateStr] || [];
-                return bookedHosts.length < CONFIG.hosts.length;
-            };
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+            setIsSubmitting(true);
+            setError(null);
 
-            const getAvailableHosts = (dateStr) => {
-                const bookedHosts = mockBookings[dateStr] || [];
-                return CONFIG.hosts.filter(host => !bookedHosts.includes(host.id));
-            };
+            try {
+                if (!selectedDate) {
+                    throw new Error('Lūdzu izvēlieties datumu');
+                }
+                if (!selectedHost) {
+                    throw new Error('Lūdzu izvēlieties vadītāju');
+                }
 
-            const handleDateClick = (day) => {
+                const selectedHostData = CONFIG.hosts.find(h => h.id === selectedHost);
+                
+                await emailjs.send(
+                    "service_d52bopv",
+                    "template_azl3ud8",
+                    {
+                        to_email: formData.email,
+                        client_name: formData.name,
+                        client_email: formData.email,
+                        client_phone: formData.phone,
+                        booking_date: selectedDate,
+                        host_name: selectedHostData.name,
+                        event_type: formData.eventType === 'corporate' ? 'Korporatīvs' : 
+                                   formData.eventType === 'private' ? 'Privāts' : 'Publisks',
+                        guest_count: formData.guests,
+                        notes: formData.notes || 'Nav papildu informācijas'
+                    }
+                );
+
+                console.log('Email sent successfully!');
+                setSubmitSuccess(true);
+                
+            } catch (err) {
+                console.error('Error:', err);
+                setError('Neizdevās nosūtīt rezervāciju. Lūdzu mēģiniet vēlreiz vai sazinieties tieši: janiszacs@gmail.com');
+            } finally {
+                setIsSubmitting(false);
+            }
+        };
+
+        const renderCalendar = () => {
+            const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentDate);
+            const days = [];
+            
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                days.push(<div key={`empty-${i}`} className="calendar-day disabled"></div>);
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
                 const year = currentDate.getFullYear();
                 const month = currentDate.getMonth();
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const date = new Date(year, month, day);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
                 
-                if (isDateAvailable(dateStr)) {
-                    setSelectedDate(dateStr);
-                    setSelectedHost(null);
-                    setError(null);
-                    
-                    const availableHosts = getAvailableHosts(dateStr);
-                    if (availableHosts.length === 1) {
-                        setSelectedHost(availableHosts[0].id);
-                        setAiRecommendation(`💡 Šajā datumā pieejams: ${availableHosts[0].name}`);
-                    } else {
-                        setAiRecommendation(`✨ Pieejami ${availableHosts.length} vadītāji. Izvēlieties sev tīkamāko!`);
-                    }
-                }
-            };
-
-           const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
-
-    try {
-        if (!selectedDate) {
-            throw new Error('Lūdzu izvēlieties datumu');
-        }
-        if (!selectedHost) {
-            throw new Error('Lūdzu izvēlieties vadītāju');
-        }
-
-        const selectedHostData = CONFIG.hosts.find(h => h.id === selectedHost);
-        
-        // Send email to CLIENT
-        await emailjs.send(
-            "service_d52bopv",
-            "template_azl3ud8",
-            {
-                to_email: formData.email,  // ← ŠITO pievienoju!
-                client_name: formData.name,
-                client_email: formData.email,
-                client_phone: formData.phone,
-                booking_date: selectedDate,
-                host_name: selectedHostData.name,
-                event_type: formData.eventType === 'corporate' ? 'Korporatīvs' : 
-                           formData.eventType === 'private' ? 'Privāts' : 'Publisks',
-                guest_count: formData.guests,
-                notes: formData.notes || 'Nav papildu informācijas'
-            }
-        );
-
-        console.log('Email sent successfully!');
-        setSubmitSuccess(true);
-        
-    } catch (err) {
-        console.error('Error:', err);
-        setError('Neizdevās nosūtīt rezervāciju. Lūdzu mēģiniet vēlreiz vai sazinieties tieši: janiszacs@gmail.com');
-    } finally {
-        setIsSubmitting(false);
-    }
-};
-
-            const renderCalendar = () => {
-                const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentDate);
-                const days = [];
+                const isPast = date < today;
+                const available = isDateAvailable(dateStr);
+                const selected = selectedDate === dateStr;
+                const bookedHosts = mockBookings[dateStr] || [];
+                const availableHosts = getAvailableHosts(dateStr);
                 
-                for (let i = 0; i < startingDayOfWeek; i++) {
-                    days.push(<div key={`empty-${i}`} className="calendar-day disabled"></div>);
-                }
-                
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const year = currentDate.getFullYear();
-                    const month = currentDate.getMonth();
-                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                    const date = new Date(year, month, day);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    
-                    const isPast = date < today;
-                    const available = isDateAvailable(dateStr);
-                    const selected = selectedDate === dateStr;
-                    const bookedHosts = mockBookings[dateStr] || [];
-                    const availableHosts = getAvailableHosts(dateStr);
-                    
-                    days.push(
-                        <div
-                            key={day}
-                            className={`calendar-day ${isPast ? 'past' : ''} ${available ? 'available' : 'disabled'} ${selected ? 'selected' : ''}`}
-                            onClick={() => !isPast && handleDateClick(day)}
-                        >
-                            <div className="day-number">{day}</div>
-                            {!isPast && availableHosts.length > 0 && (
-                                <div className="availability-dots">
-                                    {CONFIG.hosts.map(host => (
-                                        <div 
-                                            key={host.id}
-                                            className={`host-dot ${bookedHosts.includes(host.id) ? 'booked' : ''}`}
-                                        ></div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    );
-                }
-                
-                return days;
-            };
-
-            if (submitSuccess) {
-                return (
-                    <div className="success-message">
-                        <h2 style={{fontFamily: 'Oswald', fontSize: '2.5rem', marginBottom: '1rem'}}>
-                            ✅ Rezervācija veiksmīga!
-                        </h2>
-                        <p style={{fontSize: '1.2rem', marginBottom: '2rem'}}>
-                            Paldies, {formData.name}! Mēs esam saņēmuši jūsu pieteikumu.
-                        </p>
-                        <p style={{marginBottom: '1rem'}}>
-                            <strong>Datums:</strong> {selectedDate}<br/>
-                            <strong>Vadītājs:</strong> {CONFIG.hosts.find(h => h.id === selectedHost)?.name}
-                        </p>
-                        <p style={{marginTop: '2rem', fontSize: '0.95rem', opacity: 0.9}}>
-                            Apstiprinājuma e-pasts nosūtīts uz: {formData.email}
-                        </p>
-                        <button 
-                            className="nav-btn" 
-                            style={{marginTop: '2rem', padding: '1rem 2rem'}}
-                            onClick={() => {
-                                setSubmitSuccess(false);
-                                setSelectedDate(null);
-                                setSelectedHost(null);
-                                setFormData({
-                                    name: '', email: '', phone: '',
-                                    eventType: 'corporate', guests: 30, notes: ''
-                                });
-                            }}
-                        >
-                            Jauna rezervācija
-                        </button>
+                days.push(
+                    <div
+                        key={day}
+                        className={`calendar-day ${isPast ? 'past' : ''} ${available ? 'available' : 'disabled'} ${selected ? 'selected' : ''}`}
+                        onClick={() => !isPast && handleDateClick(day)}
+                    >
+                        <div className="day-number">{day}</div>
+                        {!isPast && availableHosts.length > 0 && (
+                            <div className="availability-dots">
+                                {CONFIG.hosts.map(host => (
+                                    <div 
+                                        key={host.id}
+                                        className={`host-dot ${bookedHosts.includes(host.id) ? 'booked' : ''}`}
+                                    ></div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 );
             }
+            
+            return days;
+        };
 
+        if (submitSuccess) {
             return (
-                <>
-                    <div className="info-box">
-                        <strong style={{fontFamily: 'Oswald', fontSize: '1.1rem', color: 'var(--dark)'}}>
-                            ℹ️ Kā darbojas smart booking:
-                        </strong>
-                        <ul style={{marginTop: '0.8rem', marginLeft: '1.5rem', lineHeight: '1.8'}}>
-                            <li>Izvēlieties datumu kalendārā (zaļie ir pieejami)</li>
-                            <li>Sistēma parādīs pieejamos vadītājus</li>
-                            <li>Aizpildiet formu un saņemsiet tūlītēju apstiprinājumu</li>
-                        </ul>
-                    </div>
-
-                    <div className="booking-grid">
-                        <div className="calendar-wrapper">
-                            <h3 style={{fontFamily: 'Oswald', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: '2rem'}}>
-                                📅 Izvēlieties datumu
-                            </h3>
-                            
-                            <div className="calendar-header">
-                                <div className="month-nav">
-                                    <button 
-                                        className="nav-btn"
-                                        onClick={() => {
-                                            const newDate = new Date(currentDate);
-                                            newDate.setMonth(newDate.getMonth() - 1);
-                                            setCurrentDate(newDate);
-                                        }}
-                                    >
-                                        ← Iepriekšējais
-                                    </button>
-                                    <div className="current-month">
-                                        {currentDate.toLocaleDateString('lv-LV', { month: 'long', year: 'numeric' })}
-                                    </div>
-                                    <button 
-                                        className="nav-btn"
-                                        onClick={() => {
-                                            const newDate = new Date(currentDate);
-                                            newDate.setMonth(newDate.getMonth() + 1);
-                                            setCurrentDate(newDate);
-                                        }}
-                                    >
-                                        Nākamais →
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="calendar-grid">
-                                {['Sv', 'Pr', 'Ot', 'Tr', 'Ce', 'Pk', 'Se'].map(day => (
-                                    <div key={day} className="calendar-day-header">{day}</div>
-                                ))}
-                                {renderCalendar()}
-                            </div>
-
-                            <div className="legend">
-                                <div className="legend-item">
-                                    <div className="legend-box" style={{borderColor: 'var(--success)', background: 'rgba(6, 214, 160, 0.1)'}}></div>
-                                    Pieejams
-                                </div>
-                                <div className="legend-item">
-                                    <div className="legend-box" style={{borderColor: '#ccc', background: '#f5f5f5'}}></div>
-                                    Aizņemts
-                                </div>
-                                <div className="legend-item">
-                                    <div className="legend-box" style={{borderColor: 'var(--primary)', background: 'var(--primary)'}}></div>
-                                    Izvēlēts
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="booking-form-wrapper">
-                            <h3 style={{fontFamily: 'Oswald', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: '2rem'}}>
-                                📝 Rezervācijas forma
-                            </h3>
-                            
-                            {error && <div className="error-message">❌ {error}</div>}
-                            
-                            {selectedDate && (
-                                <div style={{background: 'var(--light-gray)', padding: '1rem', borderRadius: '5px', marginBottom: '1.5rem'}}>
-                                    <strong>Izvēlētais datums:</strong> {selectedDate}
-                                </div>
-                            )}
-
-                            {selectedDate && (
-                                <div className="form-group">
-                                    <label className="form-label">Vadītājs</label>
-                                    <div className="host-selection">
-                                        {getAvailableHosts(selectedDate).map(host => (
-                                            <div
-                                                key={host.id}
-                                                className={`host-option ${selectedHost === host.id ? 'selected' : ''}`}
-                                                onClick={() => setSelectedHost(host.id)}
-                                            >
-                                                <div className="host-name">{host.name}</div>
-                                                <div style={{fontSize: '0.85rem', color: '#666'}}>✅ Pieejams</div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    {aiRecommendation && (
-                                        <div className="ai-recommendation">
-                                            {aiRecommendation}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            <form onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <label className="form-label">Vārds / Uzņēmums *</label>
-                                    <input
-                                        type="text"
-                                        className="form-input"
-                                        value={formData.name}
-                                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label className="form-label">E-pasts *</label>
-                                    <input
-                                        type="email"
-                                        className="form-input"
-                                        value={formData.email}
-                                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label className="form-label">Telefons *</label>
-                                    <input
-                                        type="tel"
-                                        className="form-input"
-                                        value={formData.phone}
-                                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label className="form-label">Pasākuma tips</label>
-                                    <select
-                                        className="form-select"
-                                        value={formData.eventType}
-                                        onChange={(e) => setFormData({...formData, eventType: e.target.value})}
-                                    >
-                                        <option value="corporate">Korporatīvs</option>
-                                        <option value="private">Privāts</option>
-                                        <option value="public">Publisks</option>
-                                    </select>
-                                </div>
-
-                                <div className="form-group">
-                                    <label className="form-label">Dalībnieku skaits</label>
-                                    <input
-                                        type="number"
-                                        className="form-input"
-                                        value={formData.guests}
-                                        onChange={(e) => setFormData({...formData, guests: e.target.value})}
-                                        min="10"
-                                        max="200"
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label className="form-label">Papildu informācija</label>
-                                    <textarea
-                                        className="form-textarea"
-                                        value={formData.notes}
-                                        onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                                        placeholder="Jebkādi īpaši pieprasījumi, tematika, u.c..."
-                                    ></textarea>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    className="submit-btn"
-                                    disabled={!selectedDate || !selectedHost || isSubmitting}
-                                >
-                                    {isSubmitting ? (
-                                        <>
-                                            <span className="loading-spinner"></span>
-                                            {' '}Apstrādā...
-                                        </>
-                                    ) : (
-                                        'Rezervēt viktorīnu'
-                                    )}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </>
+                <div className="success-message">
+                    <h2 style={{fontFamily: 'Oswald', fontSize: '2.5rem', marginBottom: '1rem'}}>
+                        ✅ Rezervācija veiksmīga!
+                    </h2>
+                    <p style={{fontSize: '1.2rem', marginBottom: '2rem'}}>
+                        Paldies, {formData.name}! Mēs esam saņēmuši jūsu pieteikumu.
+                    </p>
+                    <p style={{marginBottom: '1rem'}}>
+                        <strong>Datums:</strong> {selectedDate}<br/>
+                        <strong>Vadītājs:</strong> {CONFIG.hosts.find(h => h.id === selectedHost)?.name}
+                    </p>
+                    <p style={{marginTop: '2rem', fontSize: '0.95rem', opacity: 0.9}}>
+                        Apstiprinājuma e-pasts nosūtīts uz: {formData.email}
+                    </p>
+                    <button 
+                        className="nav-btn" 
+                        style={{marginTop: '2rem', padding: '1rem 2rem'}}
+                        onClick={() => {
+                            setSubmitSuccess(false);
+                            setSelectedDate(null);
+                            setSelectedHost(null);
+                            setFormData({
+                                name: '', email: '', phone: '',
+                                eventType: 'corporate', guests: 30, notes: ''
+                            });
+                        }}
+                    >
+                        Jauna rezervācija
+                    </button>
+                </div>
             );
         }
 
-        ReactDOM.render(<BookingApp />, document.getElementById('booking-app'));
-    </script>
+        return (
+            <>
+                <div className="info-box">
+                    <strong style={{fontFamily: 'Oswald', fontSize: '1.1rem', color: 'var(--dark)'}}>
+                        ℹ️ Kā darbojas smart booking:
+                    </strong>
+                    <ul style={{marginTop: '0.8rem', marginLeft: '1.5rem', lineHeight: '1.8'}}>
+                        <li>Izvēlieties datumu kalendārā (zaļie ir pieejami)</li>
+                        <li>Sistēma parādīs pieejamos vadītājus</li>
+                        <li>Aizpildiet formu un saņemsiet tūlītēju apstiprinājumu</li>
+                    </ul>
+                </div>
+
+                <div className="booking-grid">
+                    <div className="calendar-wrapper">
+                        <h3 style={{fontFamily: 'Oswald', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: '2rem'}}>
+                            📅 Izvēlieties datumu
+                        </h3>
+                        
+                        <div className="calendar-header">
+                            <div className="month-nav">
+                                <button 
+                                    className="nav-btn"
+                                    onClick={() => {
+                                        const newDate = new Date(currentDate);
+                                        newDate.setMonth(newDate.getMonth() - 1);
+                                        setCurrentDate(newDate);
+                                    }}
+                                >
+                                    ← Iepriekšējais
+                                </button>
+                                <div className="current-month">
+                                    {currentDate.toLocaleDateString('lv-LV', { month: 'long', year: 'numeric' })}
+                                </div>
+                                <button 
+                                    className="nav-btn"
+                                    onClick={() => {
+                                        const newDate = new Date(currentDate);
+                                        newDate.setMonth(newDate.getMonth() + 1);
+                                        setCurrentDate(newDate);
+                                    }}
+                                >
+                                    Nākamais →
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="calendar-grid">
+                            {['Sv', 'Pr', 'Ot', 'Tr', 'Ce', 'Pk', 'Se'].map(day => (
+                                <div key={day} className="calendar-day-header">{day}</div>
+                            ))}
+                            {renderCalendar()}
+                        </div>
+
+                        <div className="legend">
+                            <div className="legend-item">
+                                <div className="legend-box" style={{borderColor: 'var(--success)', background: 'rgba(6, 214, 160, 0.1)'}}></div>
+                                Pieejams
+                            </div>
+                            <div className="legend-item">
+                                <div className="legend-box" style={{borderColor: '#ccc', background: '#f5f5f5'}}></div>
+                                Aizņemts
+                            </div>
+                            <div className="legend-item">
+                                <div className="legend-box" style={{borderColor: 'var(--primary)', background: 'var(--primary)'}}></div>
+                                Izvēlēts
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="booking-form-wrapper">
+                        <h3 style={{fontFamily: 'Oswald', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: '2rem'}}>
+                            📝 Rezervācijas forma
+                        </h3>
+                        
+                        {error && <div className="error-message">❌ {error}</div>}
+                        
+                        {selectedDate && (
+                            <div style={{background: 'var(--light-gray)', padding: '1rem', borderRadius: '5px', marginBottom: '1.5rem'}}>
+                                <strong>Izvēlētais datums:</strong> {selectedDate}
+                            </div>
+                        )}
+
+                        {selectedDate && (
+                            <div className="form-group">
+                                <label className="form-label">Vadītājs</label>
+                                <div className="host-selection">
+                                    {getAvailableHosts(selectedDate).map(host => (
+                                        <div
+                                            key={host.id}
+                                            className={`host-option ${selectedHost === host.id ? 'selected' : ''}`}
+                                            onClick={() => setSelectedHost(host.id)}
+                                        >
+                                            <div className="host-name">{host.name}</div>
+                                            <div style={{fontSize: '0.85rem', color: '#666'}}>✅ Pieejams</div>
+                                        </div>
+                                    ))}
+                                </div>
+                                {aiRecommendation && (
+                                    <div className="ai-recommendation">
+                                        {aiRecommendation}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label className="form-label">Vārds / Uzņēmums *</label>
+                                <input
+                                    type="text"
+                                    className="form-input"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">E-pasts *</label>
+                                <input
+                                    type="email"
+                                    className="form-input"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Telefons *</label>
+                                <input
+                                    type="tel"
+                                    className="form-input"
+                                    value={formData.phone}
+                                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Pasākuma tips</label>
+                                <select
+                                    className="form-select"
+                                    value={formData.eventType}
+                                    onChange={(e) => setFormData({...formData, eventType: e.target.value})}
+                                >
+                                    <option value="corporate">Korporatīvs</option>
+                                    <option value="private">Privāts</option>
+                                    <option value="public">Publisks</option>
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Dalībnieku skaits</label>
+                                <input
+                                    type="number"
+                                    className="form-input"
+                                    value={formData.guests}
+                                    onChange={(e) => setFormData({...formData, guests: e.target.value})}
+                                    min="10"
+                                    max="200"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Papildu informācija</label>
+                                <textarea
+                                    className="form-textarea"
+                                    value={formData.notes}
+                                    onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                                    placeholder="Jebkādi īpaši pieprasījumi, tematika, u.c..."
+                                ></textarea>
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="submit-btn"
+                                disabled={!selectedDate || !selectedHost || isSubmitting}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <span className="loading-spinner"></span>
+                                        {' '}Apstrādā...
+                                    </>
+                                ) : (
+                                    'Rezervēt viktorīnu'
+                                )}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </>
+        );
+    }
+
+    ReactDOM.render(<BookingApp />, document.getElementById('booking-app'));
+</script>
 
     <!-- Smooth scroll script -->
     <script>

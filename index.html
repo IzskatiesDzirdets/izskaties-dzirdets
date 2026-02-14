@@ -811,12 +811,12 @@
         // CONFIGURATION - CUSTOMIZE THESE!
         const CONFIG = {
             hosts: [
-                { id: 1, name: 'Jānis Začs', email: 'janiszacs@gmail.com"' },
-                { id: 2, name: 'Lielisks vadītājs 2', email: 'janiszacs@gmail.com"' },
-            ],
-            maxBookingsPerDay: 2,
-            minAdvanceBooking: 2,
-            maxAdvanceBooking: 90
+{ id: 1, name: 'Jānis Začs', email: 'janiszacs@gmail.com' },
+        { id: 2, name: 'Lielisks vadītājs 2', email: 'janiszacs@gmail.com' }
+    ],
+    maxBookingsPerDay: 2,
+    minAdvanceBooking: 2,
+    maxAdvanceBooking: 90
         };
 
         // MOCK DATA - Replace with real Google Calendar API
@@ -901,18 +901,49 @@
                 }
             };
 
-            const handleSubmit = async (e) => {
-                e.preventDefault();
-                setIsSubmitting(true);
-                setError(null);
+           const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
 
-                try {
-                    if (!selectedDate) {
-                        throw new Error('Lūdzu izvēlieties datumu');
-                    }
-                    if (!selectedHost) {
-                        throw new Error('Lūdzu izvēlieties vadītāju');
-                    }
+    try {
+        if (!selectedDate) {
+            throw new Error('Lūdzu izvēlieties datumu');
+        }
+        if (!selectedHost) {
+            throw new Error('Lūdzu izvēlieties vadītāju');
+        }
+
+        const selectedHostData = CONFIG.hosts.find(h => h.id === selectedHost);
+        
+        // Send email to CLIENT
+        await emailjs.send(
+            "service_d52bopv",
+            "template_azl3ud8",
+            {
+                to_email: formData.email,  // ← ŠITO pievienoju!
+                client_name: formData.name,
+                client_email: formData.email,
+                client_phone: formData.phone,
+                booking_date: selectedDate,
+                host_name: selectedHostData.name,
+                event_type: formData.eventType === 'corporate' ? 'Korporatīvs' : 
+                           formData.eventType === 'private' ? 'Privāts' : 'Publisks',
+                guest_count: formData.guests,
+                notes: formData.notes || 'Nav papildu informācijas'
+            }
+        );
+
+        console.log('Email sent successfully!');
+        setSubmitSuccess(true);
+        
+    } catch (err) {
+        console.error('Error:', err);
+        setError('Neizdevās nosūtīt rezervāciju. Lūdzu mēģiniet vēlreiz vai sazinieties tieši: janiszacs@gmail.com');
+    } finally {
+        setIsSubmitting(false);
+    }
+};
 
                     // Simulate API call
                     await emailjs.send(

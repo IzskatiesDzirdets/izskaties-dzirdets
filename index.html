@@ -945,37 +945,6 @@
     }
 };
 
-                    // Simulate API call
-                    await emailjs.send(
-  "service_d52bopv",
-  "template_azl3ud8",
-  {
-    client_name: formData.name,
-    client_email: formData.email,
-    client_phone: formData.phone,
-    event_type: formData.eventType,
-    guests: formData.guests,
-    notes: formData.notes,
-    date: selectedDate,
-    host_name: CONFIG.hosts.find(h => h.id === selectedHost)?.name
-  }
-);
-
-
-                    console.log('Booking data:', {
-                        date: selectedDate,
-                        host: selectedHost,
-                        ...formData
-                    });
-
-                    setSubmitSuccess(true);
-                } catch (err) {
-                    setError(err.message);
-                } finally {
-                    setIsSubmitting(false);
-                }
-            };
-
             const renderCalendar = () => {
                 const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentDate);
                 const days = [];

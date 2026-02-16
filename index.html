@@ -662,6 +662,9 @@
         }
     </style>
 </head>
+     <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   (function(){
@@ -805,8 +808,13 @@
     </footer>
 
     <!-- React Booking Component -->
-   <script type="text/babel">
-    const { useState } = React;
+<script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // SUPABASE SETUP
+    const SUPABASE_URL = 'https://ibnvqljclchzlbvfwugj.supabase.co';  // ← PASTE ŠEIT!
+    const SUPABASE_KEY = 'sb_publishable_NYI1V1g74SKLsxTM4TxCQQ_AfI3Knz5';  // ← PASTE ŠEIT!
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // CONFIGURATION
     const CONFIG = {
@@ -819,20 +827,12 @@
         maxAdvanceBooking: 90
     };
 
-    // MOCK DATA
-    const mockBookings = {
-        '2026-02-15': [1, 2],
-        '2026-02-20': [1],
-        '2026-02-22': [2],
-        '2026-02-28': [1, 2],
-        '2026-03-05': [1],
-        '2026-03-10': [2]
-    };
-
     function BookingApp() {
         const [currentDate, setCurrentDate] = useState(new Date());
         const [selectedDate, setSelectedDate] = useState(null);
         const [selectedHost, setSelectedHost] = useState(null);
+        const [bookings, setBookings] = useState([]);
+        const [loading, setLoading] = useState(true);
         const [formData, setFormData] = useState({
             name: '',
             email: '',
@@ -846,6 +846,26 @@
         const [error, setError] = useState(null);
         const [aiRecommendation, setAiRecommendation] = useState('');
 
+        // Load bookings from Supabase
+        useEffect(() => {
+            loadBookings();
+        }, []);
+
+        const loadBookings = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('bookings')
+                    .select('booking_date, host_id');
+                
+                if (error) throw error;
+                setBookings(data || []);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error loading bookings:', err);
+                setLoading(false);
+            }
+        };
+
         const getDaysInMonth = (date) => {
             const year = date.getFullYear();
             const month = date.getMonth();
@@ -855,6 +875,12 @@
             const startingDayOfWeek = firstDay.getDay();
             
             return { daysInMonth, startingDayOfWeek };
+        };
+
+        const getBookedHosts = (dateStr) => {
+            return bookings
+                .filter(b => b.booking_date === dateStr)
+                .map(b => b.host_id);
         };
 
         const isDateAvailable = (dateStr) => {
@@ -872,12 +898,12 @@
             maxDate.setDate(maxDate.getDate() + CONFIG.maxAdvanceBooking);
             if (date > maxDate) return false;
             
-            const bookedHosts = mockBookings[dateStr] || [];
+            const bookedHosts = getBookedHosts(dateStr);
             return bookedHosts.length < CONFIG.hosts.length;
         };
 
         const getAvailableHosts = (dateStr) => {
-            const bookedHosts = mockBookings[dateStr] || [];
+            const bookedHosts = getBookedHosts(dateStr);
             return CONFIG.hosts.filter(host => !bookedHosts.includes(host.id));
         };
 
@@ -916,6 +942,24 @@
 
                 const selectedHostData = CONFIG.hosts.find(h => h.id === selectedHost);
                 
+                // Save to Supabase
+                const { data: bookingData, error: dbError } = await supabase
+                    .from('bookings')
+                    .insert([{
+                        booking_date: selectedDate,
+                        host_id: selectedHost,
+                        client_name: formData.name,
+                        client_email: formData.email,
+                        client_phone: formData.phone,
+                        event_type: formData.eventType,
+                        guest_count: formData.guests,
+                        notes: formData.notes
+                    }])
+                    .select();
+
+                if (dbError) throw dbError;
+
+                // Send email
                 await emailjs.send(
                     "service_d52bopv",
                     "template_azl3ud8",
@@ -933,7 +977,10 @@
                     }
                 );
 
-                console.log('Email sent successfully!');
+                // Reload bookings
+                await loadBookings();
+
+                console.log('Booking saved and email sent!');
                 setSubmitSuccess(true);
                 
             } catch (err) {
@@ -963,7 +1010,7 @@
                 const isPast = date < today;
                 const available = isDateAvailable(dateStr);
                 const selected = selectedDate === dateStr;
-                const bookedHosts = mockBookings[dateStr] || [];
+                const bookedHosts = getBookedHosts(dateStr);
                 const availableHosts = getAvailableHosts(dateStr);
                 
                 days.push(
@@ -989,6 +1036,15 @@
             
             return days;
         };
+
+        if (loading) {
+            return (
+                <div style={{textAlign: 'center', padding: '3rem'}}>
+                    <div className="loading-spinner" style={{display: 'inline-block', width: '40px', height: '40px'}}></div>
+                    <p style={{marginTop: '1rem'}}>Ielādē kalendāru...</p>
+                </div>
+            );
+        }
 
         if (submitSuccess) {
             return (
@@ -1221,7 +1277,7 @@
         );
     }
 
-  ReactDOM.render(<BookingApp />, document.getElementById('booking-app'));
+    ReactDOM.render(<BookingApp />, document.getElementById('booking-app'));
 </script>
 
 <!-- Smooth scroll script -->

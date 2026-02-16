@@ -180,4 +180,184 @@
                     <div class="contact-details">
                         <h3>E-pasts</h3>
                         <p><a href="mailto:janiszacs@gmail.com">janiszacs@gmail.com</a></p>
-                        <p style="font-size:0.9rem; margin-top:0.5rem;">Atbildēšu 24 stundu laikā</p
+                        <p style="font-size:0.9rem; margin-top:0.5rem;">Atbildēšu 24 stundu laikā</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-details">
+                        <h3>Telefons</h3>
+                        <p><a href="tel:+37112345678">+371 12345678</a></p>
+                        <p style="font-size:0.9rem; margin-top:0.5rem;">Pieejams darba dienās 9:00–18:00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-details">
+                        <h3>Vieta</h3>
+                        <p>Rīga, Latvija</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank">📘</a>
+            <a href="https://instagram.com" target="_blank">📸</a>
+        </div>
+        <p>&copy; 2026 Viktorīnas ar Jāni Začu. Visas tiesības aizsargātas.</p>
+    </footer>
+
+    <!-- Booking App -->
+    <script type="text/babel">
+
+    const { useState, useEffect } = React;
+
+    // Supabase init
+    const supabase = supabase.createClient(
+        'https://YOUR-SUPABASE-URL.supabase.co',
+        'YOUR-SUPABASE-ANON-KEY'
+    );
+
+    function BookingApp() {
+        const [selectedDate, setSelectedDate] = useState(null);
+        const [calendar, setCalendar] = useState([]);
+        const [month, setMonth] = useState(new Date().getMonth());
+        const [year, setYear] = useState(new Date().getFullYear());
+        const [form, setForm] = useState({name:'',email:'',phone:'',guests:'',notes:'',host:''});
+        const [loading,setLoading] = useState(false);
+        const [success,setSuccess] = useState(false);
+        const [error,setError] = useState('');
+
+        const daysOfWeek = ['P','O','T','C','P','S','S']; // Nedēļa sākas pirmdienā
+
+        useEffect(()=>{
+            generateCalendar(month,year);
+        },[month,year]);
+
+        function generateCalendar(m,y){
+            let firstDay = new Date(y,m,1);
+            let lastDay = new Date(y,m+1,0);
+            let days = [];
+            let startDay = firstDay.getDay();
+            startDay = (startDay==0)?7:startDay; // nedēļa sākas pirmdienā
+            for(let i=1;i<startDay;i++) days.push(null);
+            for(let d=1; d<=lastDay.getDate(); d++){
+                days.push(new Date(y,m,d));
+            }
+            setCalendar(days);
+        }
+
+        function nextMonth(){
+            if(month===11){setMonth(0); setYear(year+1);}
+            else setMonth(month+1);
+        }
+        function prevMonth(){
+            if(month===0){setMonth(11); setYear(year-1);}
+            else setMonth(month-1);
+        }
+
+        async function submitForm(e){
+            e.preventDefault();
+            if(!selectedDate){setError('❌ Lūdzu izvēlies datumu.'); return;}
+            if(!form.name || !form.email || !form.phone){setError('❌ Lūdzu aizpildi visus obligātos laukus.'); return;}
+            setLoading(true); setError('');
+            try{
+                let { data, error: supError } = await supabase.from('reservations').insert([{
+                    name:form.name,
+                    email:form.email,
+                    phone:form.phone,
+                    guests:form.guests,
+                    notes:form.notes,
+                    host:form.host,
+                    date:selectedDate
+                }]);
+                if(supError){throw supError;}
+                setSuccess(true);
+                setForm({name:'',email:'',phone:'',guests:'',notes:'',host:''});
+                setSelectedDate(null);
+            }catch(err){
+                console.log(err);
+                setError('❌ Neizdevās nosūtīt rezervāciju. Lūdzu mēģiniet vēlreiz vai sazinieties tieši: janiszacs@gmail.com');
+            }finally{
+                setLoading(false);
+            }
+        }
+
+        return (
+            <div className="booking-grid">
+                <div className="calendar-wrapper">
+                    <div className="calendar-header">
+                        <div className="month-nav">
+                            <button className="nav-btn" onClick={prevMonth}>Atpakaļ</button>
+                        </div>
+                        <div className="current-month">{new Date(year,month).toLocaleString('lv-LV',{month:'long', year:'numeric'})}</div>
+                        <div className="month-nav">
+                            <button className="nav-btn" onClick={nextMonth}>Uz priekšu</button>
+                        </div>
+                    </div>
+                    <div className="calendar-grid">
+                        {daysOfWeek.map((d,i)=><div key={i} className="calendar-day-header">{d}</div>)}
+                        {calendar.map((day,i)=>{
+                            if(!day) return <div key={i} className="calendar-day disabled"></div>;
+                            let isPast = day<new Date();
+                            return (
+                                <div key={i} className={`calendar-day ${isPast?'past':''} ${selectedDate && selectedDate.toDateString()===day.toDateString()?'selected':''}`} onClick={()=>!isPast && setSelectedDate(day)}>
+                                    <div className="day-number">{day.getDate()}</div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+                <div className="booking-form-wrapper">
+                    {success?
+                        <div className="success-message">
+                            ✅ Rezervācija veiksmīgi nosūtīta! Paldies!
+                        </div>
+                    :
+                        <form onSubmit={submitForm}>
+                            {error && <div className="error-message">{error}</div>}
+                            <div className="form-group">
+                                <label className="form-label">Vārds *</label>
+                                <input type="text" className="form-input" value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">E-pasts *</label>
+                                <input type="email" className="form-input" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Telefons *</label>
+                                <input type="tel" className="form-input" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})}/>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Viesu skaits</label>
+                                <input type="number" className="form-input" value={form.guests} onChange={e=>setForm({...form,guests:e.target.value})}/>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Piezīmes</label>
+                                <textarea className="form-textarea" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value})}></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Izvēlies vadītāju</label>
+                                <div className="host-selection">
+                                    {['Jānis Začs','Laura Lāce','Mārtiņš Bērziņš'].map((h)=>
+                                        <div key={h} className={`host-option ${form.host===h?'selected':''}`} onClick={()=>setForm({...form,host:h})}>{h}</div>
+                                    )}
+                                </div>
+                            </div>
+                            <button type="submit" className="submit-btn" disabled={loading}>{loading?<span className="loading-spinner"></span>:'Rezervēt'}</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        )
+    }
+
+    ReactDOM.render(<BookingApp />,document.getElementById('booking-app'));
+    </script>
+</body>
+</html>

@@ -1,245 +1,183 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Izskaties Dzirdēts | Viktorīnas ar Jāni Začu</title>
-<meta name="description" content="Profesionālas viktorīnas privātiem un korporatīviem pasākumiem. 14+ gadu pieredze erudīcijas spēlēs.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Izskaties Dzirdēts | Viktorīnas ar Jāni Začu</title>
+    <meta name="description" content="Profesionālas viktorīnas privātiem un korporatīviem pasākumiem. 14+ gadu pieredze erudīcijas spēlēs.">
 
-<!-- React & ReactDOM -->
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-<!-- Supabase SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Merriweather:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Merriweather:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Šeit CSS pilns no tava sākotnējā koda --- */
+        :root {
+            --primary: #E63946;
+            --secondary: #F1FAEE;
+            --dark: #1D3557;
+            --accent: #FFD93D;
+            --text: #2B2D42;
+            --light-gray: #EDF2F4;
+            --success: #06D6A0;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Merriweather', serif; color:var(--text); line-height:1.6; overflow-x:hidden; background:var(--secondary);}
+        html {scroll-behavior: smooth;}
+        /* Hero Section */
+        .hero {position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--dark) 0%, #457B9D 100%); overflow:hidden; padding:2rem;}
+        .hero-content {position:relative; z-index:2; text-align:center; max-width:900px; animation: fadeInUp 1s ease-out;}
+        @keyframes fadeInUp { from{opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
+        .brand-logo {font-family:'Bebas Neue', sans-serif; font-size:clamp(3rem,10vw,7rem); color:white; letter-spacing:2px; margin-bottom:1rem; text-shadow:4px 4px 0 var(--primary);}
+        .tagline {font-size:clamp(1.2rem,3vw,1.8rem); color:var(--accent); font-weight:300; margin-bottom:2rem;}
+        .hero-description {color:var(--secondary); font-size:1.1rem; margin-bottom:3rem; max-width:700px; margin-left:auto; margin-right:auto;}
+        .cta-button {display:inline-block; padding:1.2rem 3rem; background:var(--primary); color:white; text-decoration:none; font-family:'Oswald', sans-serif; font-size:1.3rem; letter-spacing:1px; border:none; cursor:pointer; transition: all 0.3s ease; text-transform: uppercase; position:relative; overflow:hidden;}
+        .cta-button::before {content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:rgba(255,255,255,0.2); transition:left 0.5s ease;}
+        .cta-button:hover::before {left:100%;}
+        .cta-button:hover {transform:translateY(-3px); box-shadow:0 10px 30px rgba(230,57,70,0.4);}
+        section {padding:5rem 2rem; max-width:1200px; margin:0 auto;}
+        .section-title {font-family:'Bebas Neue', sans-serif; font-size:clamp(2.5rem,6vw,4rem); color:var(--dark); margin-bottom:1rem; position:relative; display:inline-block;}
+        .section-title::after {content:''; position:absolute; bottom:-10px; left:0; width:60%; height:4px; background:var(--primary);}
+        .services-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; margin-top:3rem;}
+        .service-card {background:white; padding:2.5rem 2rem; border-left:6px solid var(--primary); transition:all 0.3s ease; position:relative;}
+        .service-card:hover {transform:translateX(10px); box-shadow:-10px 10px 30px rgba(0,0,0,0.1);}
+        .service-icon {font-size:3rem; margin-bottom:1rem;}
+        .service-title {font-family:'Oswald', sans-serif; font-size:1.8rem; color:var(--dark); margin-bottom:1rem;}
+        .service-description {color:#666; line-height:1.8;}
+        /* Booking & Calendar & Form */
+        .booking-section {background:white; padding:5rem 2rem;}
+        .booking-container {max-width:1400px; margin:0 auto;}
+        .booking-grid {display:grid; grid-template-columns:2fr 1fr; gap:3rem; margin-top:3rem;}
+        .calendar-wrapper, .booking-form-wrapper {background:white; padding:2.5rem; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+        .booking-form-wrapper {position:sticky; top:2rem; max-height:calc(100vh-4rem); overflow-y:auto;}
+        .calendar-header {display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;}
+        .month-nav {display:flex; gap:1rem; align-items:center;}
+        .nav-btn {background:var(--dark); color:white; border:none; padding:0.5rem 1rem; cursor:pointer; font-family:'Oswald', sans-serif; transition:all 0.3s; border-radius:5px;}
+        .nav-btn:hover {background:var(--primary); transform:translateY(-2px);}
+        .current-month {font-family:'Oswald', sans-serif; font-size:1.5rem; color:var(--dark); min-width:200px; text-align:center;}
+        .calendar-grid {display:grid; grid-template-columns:repeat(7,1fr); gap:0.5rem;}
+        .calendar-day-header {text-align:center; font-family:'Oswald', sans-serif; color:var(--dark); padding:1rem 0; font-size:0.9rem;}
+        .calendar-day {aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid var(--light-gray); cursor:pointer; transition:all 0.3s; border-radius:5px; position:relative;}
+        .calendar-day:hover:not(.disabled):not(.past) {border-color:var(--primary); transform:scale(1.05);}
+        .calendar-day.disabled {background:#f5f5f5; cursor:not-allowed; opacity:0.5;}
+        .calendar-day.past {opacity:0.3; cursor:not-allowed;}
+        .calendar-day.selected {background:var(--primary); color:white; border-color:var(--primary);}
+        .calendar-day.available {border-color:var(--success); background:rgba(6,214,160,0.1);}
+        .day-number {font-weight:bold; font-size:1.1rem;}
+        .availability-dots {display:flex; gap:3px; margin-top:5px;}
+        .host-dot {width:6px; height:6px; border-radius:50%; background:var(--success);}
+        .host-dot.booked {background:var(--primary);}
+        .form-group {margin-bottom:1.5rem;}
+        .form-label {display:block; font-family:'Oswald', sans-serif; color:var(--dark); margin-bottom:0.5rem; font-size:1.1rem;}
+        .form-input, .form-select, .form-textarea {width:100%; padding:0.8rem; border:2px solid var(--light-gray); border-radius:5px; font-family:'Merriweather', serif; font-size:1rem; transition:border-color 0.3s;}
+        .form-input:focus, .form-select:focus, .form-textarea:focus {outline:none; border-color:var(--primary);}
+        .form-textarea {min-height:100px; resize:vertical;}
+        .host-selection {display:flex; flex-direction:column; gap:0.8rem;}
+        .host-option {padding:1rem; border:2px solid var(--light-gray); border-radius:5px; cursor:pointer; transition:all 0.3s;}
+        .host-option:hover {border-color:var(--primary);}
+        .host-option.selected {border-color:var(--primary); background:rgba(230,57,70,0.1);}
+        .host-name {font-family:'Oswald', sans-serif; font-size:1.1rem; color:var(--dark); margin-bottom:0.3rem;}
+        .ai-recommendation {background:var(--accent); padding:1rem; border-radius:5px; margin-top:1rem; font-size:0.9rem; color:var(--dark);}
+        .submit-btn {width:100%; padding:1.2rem; background:var(--primary); color:white; border:none; border-radius:5px; font-family:'Oswald', sans-serif; font-size:1.3rem; cursor:pointer; transition:all 0.3s; text-transform:uppercase; letter-spacing:1px;}
+        .submit-btn:hover:not(:disabled) {background:var(--dark); transform:translateY(-3px); box-shadow:0 5px 15px rgba(230,57,70,0.3);}
+        .submit-btn:disabled {opacity:0.5; cursor:not-allowed;}
+        .loading-spinner {display:inline-block; width:20px; height:20px; border:3px solid white; border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite;}
+        @keyframes spin {to{transform:rotate(360deg);}}
+        .success-message {background:var(--success); color:white; padding:3rem; border-radius:10px; text-align:center;}
+        .error-message {background:var(--primary); color:white; padding:1rem; border-radius:5px; margin-bottom:1rem;}
+        .info-box {background:var(--light-gray); padding:1.5rem; border-radius:5px; margin-bottom:2rem; border-left:4px solid var(--accent);}
+        .legend {display:flex; gap:2rem; margin-top:1rem; flex-wrap:wrap;}
+        .legend-item {display:flex; align-items:center; gap:0.5rem; font-size:0.9rem;}
+        .legend-box {width:20px; height:20px; border:2px solid; border-radius:3px;}
+        .contact-section {background:var(--light-gray);}
+        .contact-grid {display:grid; grid-template-columns:1fr 1fr; gap:4rem; margin-top:3rem;}
+        .contact-info {display:flex; flex-direction:column; gap:2rem;}
+        .contact-item {display:flex; align-items:flex-start; gap:1.5rem;}
+        .contact-icon {font-size:2rem; color:var(--primary); margin-top:0.2rem;}
+        .contact-details h3 {font-family:'Oswald', sans-serif; font-size:1.5rem; color:var(--dark); margin-bottom:0.5rem;}
+        .contact-details p {color:#666;}
+        .contact-details a {color:var(--primary); text-decoration:none; transition:color 0.3s ease;}
+        .contact-details a:hover {color:var(--dark);}
+        footer {background:var(--dark); color:var(--secondary); text-align:center; padding:3rem 2rem;}
+        .social-links {display:flex; gap:2rem; justify-content:center; margin-bottom:2rem;}
+        .social-links a {color:var(--secondary); font-size:2rem; transition:all 0.3s ease; text-decoration:none;}
+        .social-links a:hover {color:var(--accent); transform:translateY(-5px);}
+        @media (max-width:1024px) {.booking-grid{grid-template-columns:1fr;}.booking-form-wrapper{position:static; max-height:none;}}
+        @media (max-width:768px){.contact-grid{grid-template-columns:1fr; gap:2rem;}.hero{min-height:80vh;} section{padding:3rem 1.5rem;} .calendar-grid{gap:0.3rem;} .calendar-day{font-size:0.85rem;} .day-number{font-size:0.95rem;} .availability-dots{display:none;}}
+    </style>
 
-<style>
-:root {
-    --primary: #E63946;
-    --secondary: #F1FAEE;
-    --dark: #1D3557;
-    --accent: #FFD93D;
-    --text: #2B2D42;
-    --light-gray: #EDF2F4;
-    --success: #06D6A0;
-}
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Merriweather', serif; color: var(--text); line-height: 1.6; background: var(--secondary); overflow-x: hidden; }
-html { scroll-behavior: smooth; }
-
-/* Hero */
-.hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--dark) 0%, #457B9D 100%); padding: 2rem; }
-.hero-content { text-align: center; max-width: 900px; color: white; }
-.brand-logo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 10vw, 7rem); margin-bottom: 1rem; text-shadow: 4px 4px 0 var(--primary); }
-.tagline { font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--accent); margin-bottom: 2rem; }
-
-/* Sections */
-section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
-.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--dark); margin-bottom: 1rem; position: relative; display: inline-block; }
-.section-title::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60%; height: 4px; background: var(--primary); }
-
-/* Booking */
-.booking-section { background: white; padding: 5rem 2rem; }
-.booking-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-top: 3rem; }
-.calendar-wrapper, .booking-form-wrapper { background: white; padding: 2.5rem; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
-.booking-form-wrapper { position: sticky; top: 2rem; max-height: calc(100vh - 4rem); overflow-y: auto; }
-
-/* Calendar */
-.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-.nav-btn { background: var(--dark); color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; font-family: 'Oswald', sans-serif; transition: all 0.3s; border-radius: 5px; }
-.nav-btn:hover { background: var(--primary); }
-.current-month { font-family: 'Oswald', sans-serif; font-size: 1.5rem; min-width: 200px; text-align: center; }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; }
-.calendar-day-header { text-align: center; font-family: 'Oswald', sans-serif; color: var(--dark); padding: 1rem 0; font-size: 0.9rem; }
-.calendar-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid var(--light-gray); cursor: pointer; border-radius: 5px; transition: all 0.3s; }
-.calendar-day.disabled, .calendar-day.past { background: #f5f5f5; cursor: not-allowed; opacity: 0.5; }
-.calendar-day.selected { background: var(--primary); color: white; border-color: var(--primary); }
-.day-number { font-weight: bold; font-size: 1.1rem; }
-
-/* Form */
-.form-group { margin-bottom: 1.5rem; }
-.form-label { display: block; font-family: 'Oswald', sans-serif; color: var(--dark); margin-bottom: 0.5rem; font-size: 1.1rem; }
-.form-input, .form-select, .form-textarea { width: 100%; padding: 0.8rem; border: 2px solid var(--light-gray); border-radius: 5px; font-family: 'Merriweather', serif; font-size: 1rem; transition: border-color 0.3s; }
-.form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary); }
-.submit-btn { width: 100%; padding: 1.2rem; background: var(--primary); color: white; border: none; border-radius: 5px; font-family: 'Oswald', sans-serif; font-size: 1.3rem; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-.submit-btn:hover:not(:disabled) { background: var(--dark); }
-
-/* Responsive */
-@media (max-width: 1024px) { .booking-grid { grid-template-columns: 1fr; } .booking-form-wrapper { position: static; max-height: none; } }
-</style>
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("YHTsjioMXMQ917e10");
+        })();
+    </script>
 </head>
+
 <body>
-<section class="hero">
-  <div class="hero-content">
-    <div class="brand-logo">Izskaties Dzirdēts</div>
-    <div class="tagline">Profesionālas viktorīnas privātiem un korporatīviem pasākumiem</div>
-    <p>14+ gadu pieredze erudīcijas spēlēs. Rezervē savu datumu zemāk!</p>
-  </div>
-</section>
-
-<section class="booking-section">
-  <h2 class="section-title">Rezervācijas kalendārs</h2>
-  <div id="booking-root"></div>
-</section>
-
-<section class="contact-section">
-  <h2 class="section-title">Sazinies ar mani</h2>
-  <div class="contact-info">
-    <p>Email: <a href="mailto:janiszacs@gmail.com">janiszacs@gmail.com</a></p>
-    <p>Tālrunis: +371 12345678</p>
-  </div>
-</section>
-
-<script type="text/babel">
-const { useState, useEffect } = React;
-
-// Supabase inicializācija
-const supabaseUrl = "https://YOUR_SUPABASE_URL";
-const supabaseKey = "YOUR_SUPABASE_KEY";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-// Kalendāra dati
-function BookingApp() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [availableDates, setAvailableDates] = useState([]);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    fetchAvailableDates();
-  }, [currentDate]);
-
-  async function fetchAvailableDates() {
-    const { data, error } = await supabase.from("bookings").select("*");
-    if (!error && data) {
-      setAvailableDates(data.map(d => new Date(d.date).toDateString()));
-    }
-  }
-
-  function getMonthDays(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth();
-    let firstDay = new Date(year, month, 1);
-    let lastDay = new Date(year, month + 1, 0);
-    let days = [];
-    let startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay()-1; // nedēļa sākas pirmdienā
-
-    for(let i=0; i<startDay; i++) days.push(null);
-    for(let d=1; d<=lastDay.getDate(); d++) {
-      days.push(new Date(year, month, d));
-    }
-    return days;
-  }
-
-  function handlePrevMonth() {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
-  }
-
-  function handleNextMonth() {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!selectedDate) return setError("Izvēlies datumu!");
-
-    // Vienkārša bot aizsardzība
-    if(name.toLowerCase().includes("bot") || email.toLowerCase().includes("bot")) {
-      return setError("Bot aizsardzība aktivizēta!");
-    }
-
-    setLoading(true);
-    setError('');
-    try {
-      const { data, error } = await supabase.from("bookings").insert([
-        { date: selectedDate, name, email, message }
-      ]);
-      if(error) throw error;
-      setSuccess(true);
-      setName(''); setEmail(''); setMessage(''); setSelectedDate(null);
-      fetchAvailableDates();
-    } catch(err) {
-      setError("❌ Neizdevās nosūtīt rezervāciju. Lūdzu mēģiniet vēlreiz vai sazinieties tieši: janiszacs@gmail.com");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const monthDays = getMonthDays(currentDate);
-  const monthNames = ["Janvāris","Februāris","Marts","Aprīlis","Maijs","Jūnijs","Jūlijs","Augusts","Septembris","Oktobris","Novembris","Decembris"];
-  const weekDays = ["P","O","T","C","P","S","S"];
-
-  return (
-    <div className="booking-grid">
-      <div className="calendar-wrapper">
-        <div className="calendar-header">
-          <button className="nav-btn" onClick={handlePrevMonth}>❮</button>
-          <div className="current-month">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</div>
-          <button className="nav-btn" onClick={handleNextMonth}>❯</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="brand-logo">IZSKATIES DZIRDĒTS</h1>
+            <p class="tagline">Viktorīnas ar raksturu</p>
+            <p class="hero-description">Profesionālas, aizraujošas viktorīnas privātiem un korporatīviem pasākumiem. 14+ gadu pieredze erudīcijas spēļu vadīšanā Latvijā.</p>
+            <a href="#booking" class="cta-button">Rezervēt viktorīnu</a>
         </div>
-        <div className="calendar-grid">
-          {weekDays.map((d,i)=><div key={i} className="calendar-day-header">{d}</div>)}
-          {monthDays.map((day, i) => {
-            if(!day) return <div key={i} className="calendar-day disabled"></div>;
-            const isPast = day < new Date().setHours(0,0,0,0);
-            const dayString = day.toDateString();
-            const isAvailable = availableDates.includes(dayString);
-            return (
-              <div 
-                key={i} 
-                className={`calendar-day ${isPast ? 'past' : ''} ${selectedDate===dayString ? 'selected' : ''}`}
-                onClick={()=>!isPast && setSelectedDate(dayString)}
-              >
-                <div className="day-number">{day.getDate()}</div>
-              </div>
-            )
-          })}
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Ko piedāvāju</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🏢</div>
+                <h3 class="service-title">Korporatīvie pasākumi</h3>
+                <p class="service-description">Pielāgotas viktorīnas komandas saliedēšanai, gada svētkiem vai klienta pasākumiem. Profesionāla tehnika, savs skaņas aprīkojums.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎉</div>
+                <h3 class="service-title">Privātie pasākumi</h3>
+                <p class="service-description">Dzimšanas dienas, ballītes, ģimenes pasākumi. Radīšu neaizmirstamu vakaru ar jautājumiem, kas pielāgoti tieši Jūsu auditorijai.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🍺</div>
+                <h3 class="service-title">Publiskās viktorīnas</h3>
+                <p class="service-description">Regulāras viktorīnas bāros un kafejnīcās. Viens no pirmajiem, kas sāka erudīcijas spēļu kustību Latvijā.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎵</div>
+                <h3 class="service-title">Tematiskas spēles</h3>
+                <p class="service-description">Mūzikas viktorīnas, popkultūras kvīzi, vēstures maratoni - izvēlieties tēmu vai ļaujiet man pārsteigt ar universālu formātu.</p>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div className="booking-form-wrapper">
-        {success ? <div className="success-message">Rezervācija veiksmīgi nosūtīta!</div> : (
-        <form onSubmit={handleSubmit}>
-          {error && <div className="error-message">{error}</div>}
-          <div className="form-group">
-            <label className="form-label">Izvēlies datumu</label>
-            <input type="text" className="form-input" readOnly value={selectedDate || ''} placeholder="Klikšķini kalendārā"/>
-          </div>
-          <div className="form-group">
-            <label className="form-label">Vārds</label>
-            <input className="form-input" value={name} onChange={e=>setName(e.target.value)} required/>
-          </div>
-          <div className="form-group">
-            <label className="form-label">E-pasts</label>
-            <input type="email" className="form-input" value={email} onChange={e=>setEmail(e.target.value)} required/>
-          </div>
-          <div className="form-group">
-            <label className="form-label">Ziņa / Komentārs</label>
-            <textarea className="form-textarea" value={message} onChange={e=>setMessage(e.target.value)}></textarea>
-          </div>
-          <button className="submit-btn" type="submit" disabled={loading}>
-            {loading ? <span className="loading-spinner"></span> : "Rezervēt"}
-          </button>
-        </form>
-        )}
-      </div>
-    </div>
-  );
-}
+    <!-- Booking Section -->
+    <section class="booking-section" id="booking">
+        <div class="booking-container">
+            <h2 class="section-title">Rezervēt viktorīnu</h2>
+            <div id="booking-app"></div>
+        </div>
+    </section>
 
-ReactDOM.render(<BookingApp />, document.getElementById('booking-root'));
-</script>
-</body>
-</html>
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <h2 class="section-title">Sazināties</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                        <h3>E-pasts</h3>
+                        <p><a href="mailto:janiszacs@gmail.com">janiszacs@gmail.com</a></p>
+                        <p style="font-size:0.9rem; margin-top:0.5rem;">Atbildēšu 24 stundu laikā</p

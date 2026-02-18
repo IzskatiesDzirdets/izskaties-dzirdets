@@ -1270,18 +1270,18 @@
                             {renderCalendar()}
                         </div>
 
-                       <div className="legend">
+                        <div className="legend">
                             <div className="legend-item">
                                 <div className="legend-box" style={{borderColor: '#F9A825', background: '#FFF59D'}}></div>
-                                🟡 Pieejams
+                                <span>🟡 Pieejams</span>
                             </div>
                             <div className="legend-item">
                                 <div className="legend-box" style={{borderColor: '#E63946', background: 'rgba(230, 57, 70, 0.15)'}}></div>
-                                🔴 Pilnībā aizņemts
+                                <span>🔴 Pilnībā aizņemts</span>
                             </div>
                             <div className="legend-item">
                                 <div className="legend-box" style={{borderColor: '#4CAF50', background: '#4CAF50'}}></div>
-                                🟢 Izvēlēts
+                                <span>🟢 Izvēlēts</span>
                             </div>
                             <div className="legend-item">
                                 <span style={{fontSize: '0.85rem'}}>
@@ -1290,19 +1290,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div className="booking-form-wrapper">
-```
-
----
-
-## 🎨 PUNKTIŅU LOĢIKA:
-
-**Zem katra datuma:**
-```
-🟢 🟢 = Abi vadītāji pieejami
-🟢 🔴 = Viens pieejams, viens aizņemts
-🔴 🔴 = Abi aizņemti (bet var klikšķināt!)
 
                     <div className="booking-form-wrapper">
                         <h3 style={{fontFamily: 'Oswald', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: '2rem'}}>
@@ -1409,7 +1396,7 @@
                                 ></textarea>
                             </div>
 
-                            <button
+                         <button
                                 type="submit"
                                 className="submit-btn"
                                 disabled={!selectedDate || !selectedHost || isSubmitting}
@@ -1432,6 +1419,10 @@
 
     ReactDOM.render(<BookingApp />, document.getElementById('booking-app'));
 </script>
+
+<!-- Smooth scroll script -->
+<script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 <!-- Smooth scroll script -->
 <script>

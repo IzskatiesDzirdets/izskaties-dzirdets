@@ -18,14 +18,17 @@
     
     <style>
         :root {
-            --primary: #E63946;
-            --secondary: #F1FAEE;
-            --dark: #1D3557;
-            --accent: #FFD93D;
-            --text: #2B2D42;
-            --light-gray: #EDF2F4;
-            --success: #06D6A0;
-        }
+    --primary: #E63946;
+    --secondary: #F1FAEE;
+    --dark: #1D3557;
+    --accent: #FFD93D;
+    --text: #2B2D42;
+    --light-gray: #EDF2F4;
+    --success: #06D6A0;
+    --available: #FFF59D;      /* Maigi dzeltens */
+    --selected: #4CAF50;        /* Zaļš */
+    --fully-booked: #E63946;   /* Sarkans */
+}
         
         * {
             margin: 0;
@@ -349,14 +352,40 @@
             cursor: not-allowed;
         }
         
-        .calendar-day.selected {
-    background: var(--primary);
+       .calendar-day.available {
+    border-color: #F9A825;
+    background: var(--available);
+    cursor: pointer;
+}
+
+.calendar-day.available:hover {
+    background: #FFF176;
+    border-color: #F57F17;
+}
+
+.calendar-day.selected {
+    background: var(--selected);
     color: white;
-    border-color: var(--primary);
+    border-color: var(--selected);
     transform: scale(1.15);
-    box-shadow: 0 8px 20px rgba(230, 57, 70, 0.5);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5);
     z-index: 10;
     font-weight: bold;
+}
+
+.calendar-day.selected .day-number {
+    font-size: 1.4rem;
+    font-weight: 900;
+}
+
+.calendar-day.fully-booked {
+    border-color: var(--fully-booked);
+    background: rgba(230, 57, 70, 0.15);
+    cursor: pointer;
+}
+
+.calendar-day.fully-booked:hover {
+    background: rgba(230, 57, 70, 0.25);
 }
 
 .calendar-day.selected .day-number {
@@ -401,21 +430,23 @@
         }
         
         .availability-dots {
-            display: flex;
-            gap: 3px;
-            margin-top: 5px;
-        }
-        
-        .host-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
-        }
-        
-        .host-dot.booked {
-            background: var(--primary);
-        }
+    display: flex;
+    gap: 3px;
+    margin-top: 5px;
+    justify-content: center;
+}
+
+.host-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4CAF50;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.host-dot.booked {
+    background: #E63946;
+}
         
         /* Form Styles */
         .form-group {
@@ -724,9 +755,21 @@
         font-size: 0.85rem;
     }
     
-    .availability-dots {
-        display: none;
+   .availability-dots {
+        display: flex;
+        gap: 2px;
+        margin-top: 3px;
     }
+    
+    .host-dot {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .calendar-day.selected {
+        transform: scale(1.12);
+    }
+}
     
     .calendar-header {
         flex-direction: column;
@@ -1071,24 +1114,29 @@
         };
 
         const handleDateClick = (day) => {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            
-            if (isDateAvailable(dateStr)) {
-                setSelectedDate(dateStr);
-                setSelectedHost(null);
-                setError(null);
-                
-                const availableHosts = getAvailableHosts(dateStr);
-                if (availableHosts.length === 1) {
-                    setSelectedHost(availableHosts[0].id);
-                    setAiRecommendation(`💡 Šajā datumā pieejams: ${availableHosts[0].name}`);
-                } else {
-                    setAiRecommendation(`✨ Pieejami ${availableHosts.length} vadītāji. Izvēlieties sev tīkamāko!`);
-                }
-            }
-        };
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    const availableHosts = getAvailableHosts(dateStr);
+    const bookedHosts = getBookedHosts(dateStr);
+    const fullyBooked = availableHosts.length === 0 && bookedHosts.length === CONFIG.hosts.length;
+    
+    if (isDateAvailable(dateStr) || fullyBooked) {
+        setSelectedDate(dateStr);
+        setSelectedHost(null);
+        setError(null);
+        
+        if (fullyBooked) {
+            setAiRecommendation(`📧 Visi vadītāji šajā datumā ir aizņemti, bet sazinies ar mani - es ticu veiksmei un varam vienoties! janiszacs@gmail.com vai +371 25555224`);
+        } else if (availableHosts.length === 1) {
+            setSelectedHost(availableHosts[0].id);
+            setAiRecommendation(`💡 Šajā datumā pieejams: ${availableHosts[0].name}`);
+        } else {
+            setAiRecommendation(`✨ Pieejami ${availableHosts.length} vadītāji. Izvēlieties sev tīkamāko!`);
+        }
+    }
+};
 
         const handleSubmit = async (e) => {
             e.preventDefault();
@@ -1175,12 +1223,13 @@
                 const selected = selectedDate === dateStr;
                 const bookedHosts = getBookedHosts(dateStr);
                 const availableHosts = getAvailableHosts(dateStr);
+                const fullyBooked = availableHosts.length === 0 && bookedHosts.length === CONFIG.hosts.length;
                 
                 days.push(
                     <div
                         key={day}
-                        className={`calendar-day ${isPast ? 'past' : ''} ${available ? 'available' : 'disabled'} ${selected ? 'selected' : ''}`}
-                        onClick={() => !isPast && handleDateClick(day)}
+                        className={`calendar-day ${isPast ? 'past' : ''} ${fullyBooked ? 'fully-booked' : available ? 'available' : 'disabled'} ${selected ? 'selected' : ''}`}
+                        onClick={() => !isPast && (available || fullyBooked) && handleDateClick(day)}
                     >
                         <div className="day-number">{day}</div>
                         {!isPast && availableHosts.length > 0 && (
@@ -1298,21 +1347,36 @@
                             {renderCalendar()}
                         </div>
 
-                        <div className="legend">
-                            <div className="legend-item">
-                                <div className="legend-box" style={{borderColor: 'var(--success)', background: 'rgba(6, 214, 160, 0.1)'}}></div>
-                                Pieejams
-                            </div>
-                            <div className="legend-item">
-                                <div className="legend-box" style={{borderColor: '#ccc', background: '#f5f5f5'}}></div>
-                                Aizņemts
-                            </div>
-                            <div className="legend-item">
-                                <div className="legend-box" style={{borderColor: 'var(--primary)', background: 'var(--primary)'}}></div>
-                                Izvēlēts
-                            </div>
-                        </div>
-                    </div>
+                       <div className="legend">
+    <div className="legend-item">
+        <div className="legend-box" style={{borderColor: '#F9A825', background: '#FFF59D'}}></div>
+        🟡 Pieejams
+    </div>
+    <div className="legend-item">
+        <div className="legend-box" style={{borderColor: '#E63946', background: 'rgba(230, 57, 70, 0.15)'}}></div>
+        🔴 Pilnībā aizņemts
+    </div>
+    <div className="legend-item">
+        <div className="legend-box" style={{borderColor: '#4CAF50', background: '#4CAF50'}}></div>
+        🟢 Izvēlēts
+    </div>
+    <div className="legend-item">
+        <span style={{fontSize: '0.85rem'}}>
+            🔴 = Visi vadītāji aizņemti, bet <strong>vari sazināties!</strong>
+        </span>
+    </div>
+</div>
+```
+
+---
+
+## 🎨 PUNKTIŅU LOĢIKA:
+
+**Zem katra datuma:**
+```
+🟢 🟢 = Abi vadītāji pieejami
+🟢 🔴 = Viens pieejams, viens aizņemts
+🔴 🔴 = Abi aizņemti (bet var klikšķināt!)
 
                     <div className="booking-form-wrapper">
                         <h3 style={{fontFamily: 'Oswald', fontSize: '1.8rem', color: 'var(--dark)', marginBottom: '2rem'}}>

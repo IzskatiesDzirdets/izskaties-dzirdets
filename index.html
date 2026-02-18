@@ -58,15 +58,22 @@
             padding: 2rem;
         }
         
-        .hero::before {
-            content: '???';
-            position: absolute;
-            font-size: 30vw;
-            opacity: 0.05;
-            animation: float 20s ease-in-out infinite;
-            font-family: 'Bebas Neue', sans-serif;
-            color: white;
-        }
+      .hero::before {
+    content: '';
+    position: absolute;
+    width: 50vw;
+    height: 50vw;
+    max-width: 600px;
+    max-height: 600px;
+    background-image: url('logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.15;
+    animation: float 20s ease-in-out infinite;
+    filter: brightness(1.2);
+}
+    
         
         @keyframes float {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }

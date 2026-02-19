@@ -104,51 +104,143 @@
         margin-bottom: 2rem;
     }
     
-    .hero-description {
-        color: var(--secondary);
-        font-size: 1.1rem;
-        margin-bottom: 3rem;
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .cta-button {
-        display: inline-block;
-        padding: 1.2rem 3rem;
-        background: var(--primary);
-        color: white;
-        text-decoration: none;
-        font-family: 'Oswald', sans-serif;
-        font-size: 1.3rem;
-        letter-spacing: 1px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .cta-button::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.2);
-        transition: left 0.5s ease;
-    }
-    
-    .cta-button:hover::before {
-        left: 100%;
-    }
-    
-    .cta-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4);
-    }
+    .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-logo-container {
+    margin-bottom: 2rem;
+    animation: floatLogo 3s ease-in-out infinite;
+}
+
+.hero-logo {
+    width: 200px;
+    height: auto;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.1));
+}
+
+@keyframes floatLogo {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.brand-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: var(--dark);
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.tagline {
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--primary);
+    font-weight: 400;
+    margin-bottom: 3rem;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-description {
+    color: var(--text);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(230, 57, 70, 0.4);
+    background: var(--dark);
+}
+
+.scroll-indicator {
+    margin-top: 4rem;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.scroll-indicator span {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
     
     section {
         padding: 5rem 2rem;
@@ -650,149 +742,57 @@
         }
     }
     
-    @media (max-width: 768px) {
-        .contact-grid {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-        
-        .hero {
-            min-height: 80vh;
-            padding: 1rem;
-        }
-        
-        .hero::before {
-            font-size: 20vw;
-            letter-spacing: 5vw;
-        }
-        
-        section {
-            padding: 3rem 1rem;
-        }
-        
-        .booking-section {
-            padding: 3rem 0.5rem;
-        }
-        
-        .booking-container {
-            padding: 0;
-            max-width: 100%;
-        }
-        
-        .booking-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            padding: 0 0.5rem;
-        }
-        
-        .calendar-wrapper,
-        .booking-form-wrapper {
-            padding: 1.5rem 1rem;
-            margin: 0;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .calendar-grid {
-            gap: 0.3rem;
-        }
-        
-        .calendar-day {
-            font-size: 0.75rem;
-            padding: 0.3rem;
-        }
-        
-        .day-number {
-            font-size: 0.85rem;
-        }
-        
-        .availability-dots {
-            display: flex;
-            gap: 2px;
-            margin-top: 3px;
-        }
-        
-        .host-dot {
-            width: 6px;
-            height: 6px;
-        }
-        
-        .calendar-day.selected {
-            transform: scale(1.12);
-        }
-        
-        .calendar-header {
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .month-nav {
-            width: 100%;
-            justify-content: space-between;
-        }
-        
-        .current-month {
-            font-size: 1.2rem;
-            min-width: auto;
-        }
-        
-        .nav-btn {
-            padding: 0.5rem 0.8rem;
-            font-size: 0.9rem;
-        }
-        
-        .form-input,
-        .form-select,
-        .form-textarea,
-        .submit-btn {
-            font-size: 16px;
-        }
-        
-        .brand-logo {
-            font-size: clamp(2.5rem, 12vw, 5rem);
-        }
-        
-        .tagline {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-        }
+@media (max-width: 768px) {
+    .hero-stats {
+        gap: 2rem;
     }
     
-    @media (max-width: 480px) {
-        .booking-section {
-            padding: 2rem 0.25rem;
-        }
-        
-        .calendar-wrapper,
-        .booking-form-wrapper {
-            padding: 1rem 0.75rem;
-            border-radius: 5px;
-        }
-        
-        .calendar-grid {
-            gap: 0.2rem;
-        }
-        
-        .calendar-day {
-            font-size: 0.7rem;
-            border-width: 1px;
-        }
-        
-        .day-number {
-            font-size: 0.8rem;
-        }
-        
-        .section-title {
-            font-size: clamp(2rem, 8vw, 3rem);
-        }
-        
-        .hero::before {
-            font-size: 25vw;
-            letter-spacing: 3vw;
-        }
+    .hero-logo {
+        width: 150px;
     }
+    
+    .calendar-day.selected {
+        transform: scale(1.08);
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    }
+    
+    .calendar-day.selected .day-number {
+        font-size: 1.1rem;
+    }
+    
+    .calendar-grid {
+        gap: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-stats {
+        gap: 1.5rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
+    }
+    
+    .calendar-day.selected {
+        transform: scale(1.05);
+    }
+    
+    .calendar-day.selected .day-number {
+        font-size: 1rem;
+    }
+}
 </style>
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Particles.js -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
 </head>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
@@ -803,17 +803,37 @@
 
 <body>
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="brand-logo">IZSKATIES DZIRDĒTS</h1>
-            <p class="tagline">Viktorīnas ar raksturu</p>
-            <p class="hero-description">
-                Profesionālas, aizraujošas viktorīnas privātiem un korporatīviem pasākumiem. 
-                14+ gadu pieredze erudīcijas spēļu vadīšanā Latvijā.
-            </p>
-            <a href="#booking" class="cta-button">Rezervēt viktorīnu</a>
+   <section class="hero">
+    <div id="particles-js"></div>
+    <div class="hero-content">
+        <div class="hero-logo-container">
+            <img src="logo.png" alt="Izskaties Dzirdēts" class="hero-logo">
         </div>
-    </section>
+        <h1 class="brand-logo">IZSKATIES DZIRDĒTS</h1>
+        <p class="tagline">Viktorīnas ar raksturu</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">14+</div>
+                <div class="stat-label">Gadu pieredze</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Pasākumi</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Aizraušana</div>
+            </div>
+        </div>
+        <p class="hero-description">
+            Profesionālas, aizraujošas viktorīnas privātiem un korporatīviem pasākumiem
+        </p>
+        <a href="#booking" class="cta-button">Rezervēt viktorīnu</a>
+        <div class="scroll-indicator">
+            <span>↓</span>
+        </div>
+    </div>
+</section>
 
     <!-- Services Section -->
     <section id="services">
@@ -1434,6 +1454,76 @@
             }
         });
     });
+</script>
+    <script>
+// Particles.js configuration
+particlesJS('particles-js', {
+    particles: {
+        number: {
+            value: 80,
+            density: {
+                enable: true,
+                value_area: 800
+            }
+        },
+        color: {
+            value: ['#E63946', '#1D3557', '#FFD93D']
+        },
+        shape: {
+            type: 'circle'
+        },
+        opacity: {
+            value: 0.5,
+            random: true
+        },
+        size: {
+            value: 3,
+            random: true
+        },
+        line_linked: {
+            enable: true,
+            distance: 150,
+            color: '#E63946',
+            opacity: 0.2,
+            width: 1
+        },
+        move: {
+            enable: true,
+            speed: 2,
+            direction: 'none',
+            random: true,
+            straight: false,
+            out_mode: 'out',
+            bounce: false
+        }
+    },
+    interactivity: {
+        detect_on: 'canvas',
+        events: {
+            onhover: {
+                enable: true,
+                mode: 'grab'
+            },
+            onclick: {
+                enable: true,
+                mode: 'push'
+            },
+            resize: true
+        },
+        modes: {
+            grab: {
+                distance: 140,
+                line_linked: {
+                    opacity: 0.5
+                }
+            },
+            push: {
+                particles_nb: 4
+            }
+        }
+    },
+    retina_detect: true
+});
 </script>
 </body>
 </html>

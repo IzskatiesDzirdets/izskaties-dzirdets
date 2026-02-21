@@ -355,12 +355,14 @@ section > * {
         margin-top: 3rem;
     }
     
-    .calendar-wrapper {
-        background: white;
-        padding: 2.5rem;
-        border-radius: 10px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    }
+   .calendar-wrapper {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    max-height: 85vh;
+    overflow-y: auto;
+}
     
     .booking-form-wrapper {
         background: white;
@@ -410,11 +412,11 @@ section > * {
         text-align: center;
     }
     
-    .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 0.5rem;
-    }
+   .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.4rem;
+}
     
     .calendar-day-header {
         text-align: center;
@@ -424,18 +426,19 @@ section > * {
         font-size: 0.9rem;
     }
     
-    .calendar-day {
-        aspect-ratio: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--light-gray);
-        cursor: pointer;
-        transition: all 0.3s;
-        border-radius: 5px;
-        position: relative;
-    }
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--light-gray);
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 5px;
+    position: relative;
+    max-height: 80px;
+}
     
     .calendar-day:hover:not(.disabled):not(.past) {
         border-color: var(--primary);
@@ -490,9 +493,9 @@ section > * {
     }
     
     .day-number {
-        font-weight: bold;
-        font-size: 1.1rem;
-    }
+    font-weight: bold;
+    font-size: 1rem;
+}
     
     .availability-dots {
         display: flex;
@@ -629,12 +632,17 @@ section > * {
     }
     
     .success-message {
-        background: var(--success);
-        color: white;
-        padding: 3rem;
-        border-radius: 10px;
-        text-align: center;
-    }
+    background: var(--success);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 10px;
+    text-align: center;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
     
     .error-message {
         background: var(--primary);
@@ -1494,12 +1502,12 @@ footer > div {
 
 if (submitSuccess) {
     // Auto-scroll to top of booking section
-    useEffect(() => {
+    setTimeout(() => {
         const bookingSection = document.getElementById('booking');
         if (bookingSection) {
             bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, []);
+    }, 100);
     
     return (
         <div className="success-message">

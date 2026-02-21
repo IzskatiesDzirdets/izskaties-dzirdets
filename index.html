@@ -45,6 +45,9 @@
     margin: 0;
     padding: 0;
 }
+      body > * {
+    max-width: 100%;
+}
     
     html {
         scroll-behavior: smooth;
@@ -58,11 +61,9 @@
     justify-content: center;
     background: #FFFFFF;
     overflow: hidden;
-    padding: 0;
+    padding: 2rem;
     margin: 0;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
+    width: 100%;
 }
     
     .hero::before {
@@ -249,10 +250,16 @@
 }
     
     section {
-        padding: 5rem 2rem;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+    padding: 5rem 2rem;
+    width: 100%;
+    margin: 0;
+}
+
+section > * {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
     
     .section-title {
         font-family: 'Bebas Neue', sans-serif;
@@ -327,9 +334,14 @@
     }
     
     .booking-section {
-        background: white;
-        padding: 5rem 2rem;
-    }
+    background: white;
+    padding: 5rem 0;
+    width: 100%;
+}
+
+.booking-section .section-title {
+    padding: 0 2rem;
+}
     
     .booking-container {
         max-width: 1400px;
@@ -662,8 +674,17 @@
     }
     
     .contact-section {
-        background: var(--light-gray);
-    }
+    background: var(--light-gray);
+    width: 100%;
+    padding: 5rem 0;
+}
+
+.contact-section > * {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2rem;
+}
     
     .contact-grid {
         display: grid;
@@ -712,11 +733,18 @@
     }
     
     footer {
-        background: var(--dark);
-        color: var(--secondary);
-        text-align: center;
-        padding: 3rem 2rem;
-    }
+    background: var(--dark);
+    color: var(--secondary);
+    text-align: center;
+    padding: 3rem 0;
+    width: 100%;
+}
+
+footer > div {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
     
     .social-links {
         display: flex;

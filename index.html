@@ -58,9 +58,11 @@
     justify-content: center;
     background: #FFFFFF;
     overflow: hidden;
-    padding: 2rem 0;
+    padding: 0;
     margin: 0;
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
 }
     
     .hero::before {
@@ -920,10 +922,12 @@
 }
 
 </style>
+
+<!-- Network compatibility -->
+<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src *; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
 </head>
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js" onerror="this.onerror=null; this.src='https://unpkg.com/@emailjs/browser@3/dist/email.min.js'"></script>
 <script>
   (function(){
      emailjs.init("YHTsjioMXMQ917e10");
@@ -963,10 +967,9 @@
             Profesionālas, aizraujošas viktorīnas privātiem un korporatīviem pasākumiem
         </p>
         <a href="#booking" class="cta-button">Rezervēt viktorīnu</a>
-        <div class="scroll-indicator">
-            <span>↓</span>
-        </div>
-    </div>
+        <div class="scroll-indicator" style="cursor: pointer;" onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})">
+    <span>↓</span>
+</div>
 </section>
 
     <!-- Services Section -->
@@ -1219,11 +1222,18 @@
 };
 
         const handleSubmit = async (e) => {
-            e.preventDefault();
-            setIsSubmitting(true);
-            setError(null);
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
 
-            try {
+    // Check network connectivity
+    if (!navigator.onLine) {
+        setError('Nav interneta savienojuma. Lūdzu pārbaudiet savu WiFi vai mobilo datu savienojumu.');
+        setIsSubmitting(false);
+        return;
+    }
+
+    try {
                 if (!selectedDate) {
                     throw new Error('Lūdzu izvēlieties datumu');
                 }
@@ -1274,12 +1284,24 @@
                 console.log('Booking saved and email sent!');
                 setSubmitSuccess(true);
                 
-            } catch (err) {
-                console.error('Error:', err);
-                setError('Neizdevās nosūtīt rezervāciju. Lūdzu mēģiniet vēlreiz vai sazinieties tieši: janiszacs@gmail.com');
-            } finally {
-                setIsSubmitting(false);
-            }
+           } catch (err) {
+    console.error('Error:', err);
+    
+    // Better error messages
+    let errorMessage = 'Neizdevās nosūtīt rezervāciju. ';
+    
+    if (err.message && err.message.includes('network')) {
+        errorMessage += 'Pārbaudiet interneta savienojumu un mēģiniet vēlreiz.';
+    } else if (err.message && err.message.includes('fetch')) {
+        errorMessage += 'Servera kļūda. Lūdzu mēģiniet vēlreiz pēc dažām sekundēm.';
+    } else {
+        errorMessage += 'Lūdzu mēģiniet vēlreiz vai sazinieties tieši: janiszacs@gmail.com / +371 25555224';
+    }
+    
+    setError(errorMessage);
+} finally {
+    setIsSubmitting(false);
+}
         };
 
         const renderCalendar = () => {
@@ -1338,9 +1360,17 @@
             );
         }
 
-        if (submitSuccess) {
-            return (
-                <div className="success-message">
+if (submitSuccess) {
+    // Auto-scroll to top of booking section
+    useEffect(() => {
+        const bookingSection = document.getElementById('booking');
+        if (bookingSection) {
+            bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, []);
+    
+    return (
+        <div className="success-message">
                     <h2 style={{fontFamily: 'Oswald', fontSize: '2.5rem', marginBottom: '1rem'}}>
                         ✅ Rezervācija veiksmīga!
                     </h2>
@@ -1590,6 +1620,17 @@
                 });
             }
         });
+    });
+    
+    // Scroll indicator click
+    document.querySelector('.scroll-indicator').addEventListener('click', function() {
+        const servicesSection = document.getElementById('services');
+        if (servicesSection) {
+            servicesSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     });
 </script>
     

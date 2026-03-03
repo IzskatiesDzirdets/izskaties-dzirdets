@@ -1898,7 +1898,7 @@
                                 </div>
                                 <div className="legend-item">
                                     <span style={{fontSize: '0.85rem'}}>
-                                        🔴 = Visi vadītāji aizņemti, bet <strong>vari sazināties!</strong>
+                                        🔴 = Visi vadītāji aizņemti, bet <strong> nepamēģināsi, neuzzināsi!</strong>
                                     </span>
                                 </div>
                             </div>
@@ -1994,8 +1994,8 @@
                                         className="form-input"
                                         value={formData.guests}
                                         onChange={(e) => setFormData({...formData, guests: e.target.value})}
-                                        min="10"
-                                        max="200"
+                                        min="8"
+                                        max="2500"
                                     />
                                 </div>
 
@@ -2083,34 +2083,6 @@
                     if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
                         currentSection = index;
                     }
-                }
-            });
-        }
-
-        window.addEventListener('scroll', () => {
-            updateCurrentSection();
-            
-            const navDots = document.querySelectorAll('.nav-dot');
-            const upArrow = document.querySelector('.scroll-arrow.up');
-            const downArrow = document.getElementById('scrollDownArrow');
-            
-            if (window.scrollY > 300) {
-                upArrow.style.display = 'flex';
-            } else {
-                upArrow.style.display = 'none';
-            }
-            
-            if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) {
-                downArrow.style.display = 'none';
-            } else {
-                downArrow.style.display = 'flex';
-            }
-            
-            navDots.forEach((dot, index) => {
-                if (index === currentSection) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
                 }
             });
         });

@@ -52,7 +52,7 @@
         
         .hero {
             position: relative;
-            min-height: 100vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -86,12 +86,12 @@
         }
         
         .hero-logo-container {
-            margin-bottom: 2rem;
-            animation: floatLogo 3s ease-in-out infinite;
-        }
+    margin-bottom: 1.5rem;  /* was 2rem */
+    animation: floatLogo 3s ease-in-out infinite;
+}
         
         .hero-logo {
-            width: 200px;
+            width: 320px;
             height: auto;
             filter: drop-shadow(0 10px 30px rgba(0,0,0,0.1));
         }
@@ -101,20 +101,11 @@
             50% { transform: translateY(-20px); }
         }
         
-        .brand-logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            color: var(--dark);
-            letter-spacing: 3px;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-        
         .tagline {
             font-size: clamp(1rem, 2.5vw, 1.4rem);
             color: var(--primary);
             font-weight: 400;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             font-family: 'Oswald', sans-serif;
             letter-spacing: 1px;
         }
@@ -122,8 +113,8 @@
         .hero-stats {
             display: flex;
             justify-content: center;
-            gap: 3rem;
-            margin: 3rem 0;
+            gap: 2rem;
+            margin: 2rem 0;
             flex-wrap: wrap;
         }
         
@@ -150,7 +141,7 @@
         .hero-description {
             color: var(--text);
             font-size: clamp(1rem, 2vw, 1.2rem);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -180,30 +171,15 @@
             background: var(--dark);
         }
         
-        .scroll-indicator {
-            margin-top: 4rem;
-            animation: bounce 2s ease-in-out infinite;
-            cursor: pointer;
-        }
-        
-        .scroll-indicator span {
-            font-size: 2rem;
-            color: var(--primary);
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
-        }
         
         section {
-            padding: 5rem 2rem;
+            padding: 3rem 2rem;
             width: 100%;
             margin: 0;
         }
         
         section > * {
-            max-width: 1920px;
+            max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -1008,7 +984,7 @@
             }
             
             .hero-logo {
-                width: 150px;
+                width: 220px;
             }
             
             .contact-grid {
@@ -1210,11 +1186,10 @@
     <section class="hero">
         <div id="particles-js"></div>
         <div class="hero-content">
-            <div class="hero-logo-container">
-                <img src="logo.png" alt="Izskaties Dzirdēts" class="hero-logo">
-            </div>
-            <h1 class="brand-logo">IZSKATIES DZIRDĒTS</h1>
-            <p class="tagline">Pasākumi un viktorīnas ar raksturu</p>
+<div class="hero-logo-container">
+    <img src="logo.png" alt="Izskaties Dzirdēts" class="hero-logo">
+</div>
+<p class="tagline">Pasākumi un viktorīnas ar raksturu</p>
             <div class="hero-stats">
                 <div class="stat-item">
                     <div class="stat-number">14+</div>
@@ -1233,9 +1208,6 @@
                 Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, publiskiem un korporatīviem pasākumiem
             </p>
             <a href="#booking" class="cta-button">Rezervēt konsultāciju</a>
-            <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
-                <span>↓</span>
-            </div>
         </div>
     </section>
 

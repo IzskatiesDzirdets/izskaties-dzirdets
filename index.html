@@ -76,10 +76,15 @@
     position: relative;
     z-index: 2;
     text-align: center;
-    width: 100%;  /* FULL WIDTH */
-    max-width: 1400px;  /* Wider limit */
-    padding: 0 2rem;  /* Safe spacing */
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 2rem;
     animation: fadeInUp 1s ease-out;
+    pointer-events: none;  /* Let particles work! */
+}
+
+.hero-content > * {
+    pointer-events: auto;  /* But content (buttons, text) still works */
 }
         
         @keyframes fadeInUp {
@@ -91,7 +96,12 @@
     margin-bottom: 2rem;
     animation: floatLogo 3s ease-in-out infinite;
     position: relative;
-    z-index: 10;  /* Above particles (z-index: 1) */
+    z-index: 10;
+    pointer-events: none;  /* Let clicks pass through! */
+}
+
+.hero-logo-container img {
+    pointer-events: auto;  /* But logo itself still clickable if needed */
 }
         
         .hero-logo {

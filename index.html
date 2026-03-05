@@ -68,6 +68,12 @@
             width: 100vw;
             margin-left: calc(-50vw + 50%);
         }
+        .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
         
         #particles-js {
             position: absolute;
@@ -107,7 +113,7 @@
         /* Scroll down arrow on hero */
 .hero-scroll-arrow {
     position: absolute;
-    bottom: 2rem;
+    bottom: 6rem;
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem;
@@ -139,13 +145,12 @@
 
 @media (max-width: 768px) {
     .hero-scroll-arrow {
-        bottom: 1.5rem;
+        bottom: 7rem;
         width: 45px;
         height: 45px;
         font-size: 1.5rem;
     }
 }
-
 /* Stats items need to be transparent too */
 .stat-item {
     pointer-events: none;

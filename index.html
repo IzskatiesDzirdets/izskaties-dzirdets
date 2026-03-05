@@ -55,11 +55,14 @@
             scroll-behavior: smooth;
         }
         
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
+        .hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:20px;
+text-align:center;
             justify-content: center;
             background: #FFFFFF;
             overflow: hidden;
@@ -95,9 +98,9 @@
             pointer-events: none;
         }
 
-        .hero-content > * {
-            pointer-events: auto;
-        }
+        .hero-content > *{
+margin:10px 0;
+}
         /* Make text areas transparent for particles */
 .hero-stats,
 .tagline,

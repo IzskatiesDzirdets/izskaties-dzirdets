@@ -104,6 +104,48 @@
     pointer-events: auto;
 }
 
+        /* Scroll down arrow on hero */
+.hero-scroll-arrow {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: var(--primary);
+    cursor: pointer;
+    animation: bounceArrow 2s infinite;
+    z-index: 10;
+    background: rgba(255,255,255,0.9);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 20px rgba(230, 57, 70, 0.3);
+    transition: all 0.3s ease;
+}
+
+.hero-scroll-arrow:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+@keyframes bounceArrow {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+}
+
+@media (max-width: 768px) {
+    .hero-scroll-arrow {
+        bottom: 1.5rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
+    }
+}
+
 /* Stats items need to be transparent too */
 .stat-item {
     pointer-events: none;
@@ -1279,64 +1321,71 @@
             <p class="hero-description">
                 Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, publiskiem un korporatīviem pasākumiem
             </p>
-            <a href="#booking" class="cta-button">Rezervēt konsultāciju</a>
+           <a href="#booking" class="cta-button">Rezervēt konsultāciju</a>
+        </div>
+        
+        <!-- Scroll arrow -->
+        <div class="hero-scroll-arrow" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+            ↓
         </div>
     </section>
-
    <!-- About Section -->
-    <section id="about" class="about-section accordion-section">
+<section id="about" class="about-section accordion-section">
     <div class="accordion-header" onclick="toggleAccordion('about')">
         <h2 class="accordion-title">📖 Par Izskaties Dzirdēts</h2>
         <span class="accordion-icon">▼</span>
     </div>
     
     <div class="accordion-content">
-        <div class="about-content">
-            <img src="stage-presentation.jpg" alt="Jānis Začs pasākumā" class="about-image">
-            
-            <div class="about-text">
-             <p>
-    <strong>"Izskaties Dzirdēts"</strong> ir profesionālu pasākumu un intelektuālas izklaides zīmols, kura pamatā ir dzīva saikne ar auditoriju un kvalitāte katrā detaļā.
-</p>
+        <div class="accordion-inner">
+            <div class="about-content">
+                <img src="stage-presentation.jpg" alt="Jānis Začs pasākumā" class="about-image">
+                
+                <div class="about-text">
+                    <p>
+                        <strong>"Izskaties Dzirdēts"</strong> ir profesionālu pasākumu un intelektuālas izklaides zīmols, kura pamatā ir dzīva saikne ar auditoriju un kvalitāte katrā detaļā.
+                    </p>
 
-<p>
-    Zīmolu izveidojis <strong>Jānis Začs</strong> — pasākumu vadītājs ar vairāk nekā 14 gadu pieredzi un 500+ vadītiem pasākumiem. 
-    Viņš ir viens no <strong>"Prāta Spēles"</strong> aizsācējiem — projektam, kas Latvijā no nišas idejas izauga par kustību.
-</p>
+                    <p>
+                        Zīmolu izveidojis <strong>Jānis Začs</strong> — pasākumu vadītājs ar vairāk nekā 14 gadu pieredzi un 500+ vadītiem pasākumiem. 
+                        Viņš ir viens no <strong>"Prāta Spēles"</strong> aizsācējiem — projektam, kas Latvijā no nišas idejas izauga par kustību.
+                    </p>
 
-<p>
-    Gadu gaitā vadīti pasākumi no privātiem notikumiem un uzņēmumu pasākumiem līdz lielām festivālu skatuvēm,  
-    strādājot kopā ar <strong>Valteru Krauzi, Oskaru Leperi, Māri Grigali, Normundu Avotiņu</strong> un citiem profesionāļiem.
-</p>
+                    <p>
+                        Gadu gaitā vadīti pasākumi no privātiem notikumiem un uzņēmumu pasākumiem līdz lielām festivālu skatuvēm,  
+                        strādājot kopā ar <strong>Valteru Krauzi, Oskaru Leperi, Māri Grigali, Normundu Avotiņu</strong> un citiem profesionāļiem.
+                    </p>
 
-<div class="about-highlight">
-    <strong>💡 Svarīgākais nav skatuves lielums. Svarīgākais ir savienojums ar auditoriju.</strong>
-</div>
+                    <div class="about-highlight">
+                        <strong>💡 Svarīgākais nav skatuves lielums. Svarīgākais ir savienojums ar auditoriju.</strong>
+                    </div>
 
-<p>
-    No īsas sarunas līdz gatavam risinājumam — mērķis ir viens: 
-    lai pasākums noritētu pārliecinoši, plūstoši un bez lieka stresa.
-</p>
+                    <p>
+                        No īsas sarunas līdz gatavam risinājumam — mērķis ir viens: 
+                        lai pasākums noritētu pārliecinoši, plūstoši un bez lieka stresa.
+                    </p>
 
-<p>
-    Klientam tas nozīmē mieru. 
-    Viesiem — iesaisti. 
-    Pasākumam — ritmu.
-</p>
+                    <p>
+                        Klientam tas nozīmē mieru. 
+                        Viesiem — iesaisti. 
+                        Pasākumam — ritmu.
+                    </p>
 
-<p>
-    <strong>Tehniski daudz ko var atkārtot. Attieksmi, iedziļināšanos un klātbūtni — nevar.</strong>
-</p>
+                    <p>
+                        <strong>Tehniski daudz ko var atkārtot. Attieksmi, iedziļināšanos un klātbūtni — nevar.</strong>
+                    </p>
 
-<p>
-    “Izskaties Dzirdēts” nodrošina šo pieeju neatkarīgi no tā, vai pasākumu vada pats Jānis vai viņa piemeklēts profesionāls vadītājs.
-</p>
+                    <p>
+                        "Izskaties Dzirdēts" nodrošina šo pieeju neatkarīgi no tā, vai pasākumu vada pats Jānis vai viņa piemeklēts profesionāls vadītājs.
+                    </p>
 
-<p>
-    Programma starp ēdieniem, komandas saliedēšana vai auditorijas aktivizēšana —
-    katru reizi mērķis ir viens: lai jūs tiktu sadzirdēti un pasākums būtu profesionāli vadīts no pirmās minūtes līdz pēdējai.
-</p>
-           </div>
+                    <p>
+                        Programma starp ēdieniem, komandas saliedēšana vai auditorijas aktivizēšana —
+                        katru reizi mērķis ir viens: lai jūs tiktu sadzirdēti un pasākums būtu profesionāli vadīts no pirmās minūtes līdz pēdējai.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1348,8 +1397,8 @@
     </div>
     
     <div class="accordion-content">
-        <div class="services-grid">
-            <div class="service-card">
+        <div class="accordion-inner">
+            <div class="services-grid">
                 <div class="service-icon">🎤</div>
                 <h3 class="service-title">Korporatīvie pasākumi</h3>
                 <p class="service-description">
@@ -1393,7 +1442,8 @@
                 </button>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Photo Gallery Section -->
     <section id="gallery" class="gallery-section accordion-section">
@@ -1403,6 +1453,7 @@
     </div>
     
     <div class="accordion-content">
+        <div class="accordion-inner">
         <div class="photo-gallery">
             <div class="gallery-item">
                 <img src="hero-event.jpg" alt="Pasākums ar balvām">
@@ -1444,6 +1495,7 @@
                 <div class="gallery-overlay">
                     <div class="gallery-overlay-title">Profesionāla skatuves vadība</div>
                 </div>
+                </div> 
             </div>
         </div>
     </section>
@@ -1456,6 +1508,7 @@
     </div>
     
     <div class="accordion-content">
+            <div class="accordion-inner">
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 <div class="testimonial-quote">"</div>
@@ -1482,6 +1535,7 @@
                 </p>
                 <div class="testimonial-author">Roberts Liepiņš</div>
                 <div class="testimonial-role">Uzņēmējs</div>
+            </div>
             </div>
         </div>
     </section>

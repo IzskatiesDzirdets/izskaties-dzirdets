@@ -261,11 +261,7 @@
             background: white;
         }
 
-        details {
-            width: 100%;
-        }
-
-        summary.accordion-header {
+        .accordion-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -276,15 +272,9 @@
             border-bottom: 2px solid var(--light-gray);
             position: relative;
             overflow: hidden;
-            list-style: none;
-            user-select: none;
         }
 
-        summary.accordion-header::-webkit-details-marker {
-            display: none;
-        }
-
-        summary.accordion-header::before {
+        .accordion-header::before {
             content: '';
             position: absolute;
             top: 0;
@@ -295,45 +285,56 @@
             transition: left 0.5s ease;
         }
 
-        summary.accordion-header:hover::before {
+        .accordion-header:hover::before {
             left: 100%;
         }
 
-        summary.accordion-header:hover {
+        .accordion-header:hover {
             background: var(--light-gray);
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
-        summary.accordion-header .accordion-title {
+        .accordion-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 2rem);
             color: var(--dark);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            letter-spacing: 1px;
         }
 
-        summary.accordion-header::after {
-            content: '▼';
+        .accordion-icon {
             font-size: 1.5rem;
             color: var(--primary);
             transition: transform 0.3s ease;
             flex-shrink: 0;
-            margin-left: auto;
-            padding-left: 1rem;
         }
 
-        details[open] summary.accordion-header::after {
+        .accordion-section.active .accordion-icon {
             transform: rotate(180deg);
+            color: var(--accent);
         }
 
-        details[open] summary.accordion-header {
+        .accordion-section.active .accordion-header {
             background: linear-gradient(135deg, var(--dark) 0%, #2a4a72 100%);
             border-bottom: none;
         }
 
-        details[open] summary.accordion-header .accordion-title {
+        .accordion-section.active .accordion-title {
             color: white;
         }
 
-        details[open] summary.accordion-header::after {
-            color: var(--accent);
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .accordion-section.active .accordion-content {
+            max-height: 8000px;
         }
 
         .accordion-inner {
@@ -1447,10 +1448,11 @@
 
     <!-- About Section -->
     <section id="about" class="about-section accordion-section">
-        <details><summary class="accordion-header">
+        <div class="accordion-header" onclick="toggleAccordion('about')">
             <h2 class="accordion-title">📖 Par Izskaties Dzirdēts</h2>
             <span class="accordion-icon">▼</span>
-        </summary>
+        </div>
+        <div class="accordion-content">
             <div class="accordion-inner">
                 <div class="about-content">
                     <img src="stage-presentation.jpg" alt="Jānis Začs pasākumā" class="about-image">
@@ -1500,15 +1502,16 @@
                     </div>
                 </div>
             </div>
-        </details>
+        </div>
     </section>
 
     <!-- Services Section -->
     <section id="services" class="accordion-section">
-        <details><summary class="accordion-header">
+        <div class="accordion-header" onclick="toggleAccordion('services')">
             <h2 class="accordion-title">🎤 Ko piedāvāju</h2>
             <span class="accordion-icon">▼</span>
-        </summary>
+        </div>
+        <div class="accordion-content">
             <div class="accordion-inner">
                 <div class="services-grid">
                     
@@ -1586,15 +1589,16 @@
                     
                 </div>
             </div>
-        </details>
+        </div>
     </section>
 
     <!-- Photo Gallery Section -->
     <section id="gallery" class="gallery-section accordion-section">
-        <details><summary class="accordion-header">
+        <div class="accordion-header" onclick="toggleAccordion('gallery')">
             <h2 class="accordion-title">📸 Pasākumu galerija</h2>
             <span class="accordion-icon">▼</span>
-        </summary>
+        </div>
+        <div class="accordion-content">
             <div class="accordion-inner">
                 <div class="photo-gallery">
                     <div class="gallery-item">
@@ -1640,15 +1644,16 @@
                     </div> 
                 </div>
             </div>
-        </details>
+        </div>
     </section>
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials-section accordion-section">
-        <details><summary class="accordion-header">
+        <div class="accordion-header" onclick="toggleAccordion('testimonials')">
             <h2 class="accordion-title">⭐ Ko saka klienti</h2>
             <span class="accordion-icon">▼</span>
-        </summary>
+        </div>
+        <div class="accordion-content">
             <div class="accordion-inner">
                 <div class="testimonials-grid">
                     <div class="testimonial-card">
@@ -1679,7 +1684,7 @@
                     </div>
                 </div>
             </div>
-        </details>
+        </div>
     </section>
 
     <!-- Booking Section with React -->
@@ -1760,7 +1765,7 @@
                     </p>
                 </div>
             </div>
-        </details>
+        </div>
     </section>
 
     <!-- Footer -->

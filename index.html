@@ -1578,7 +1578,6 @@
                         </button>
                     </div>
                     
-                    
                 </div>
             </div>
         </div>
@@ -2607,8 +2606,19 @@
                 section.classList.add('active');
                 
                 setTimeout(() => {
-                    const headerOffset = 0;
                     const elementPosition = section.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    const offsetPosition = elementPosition + window.pageYOffset;
                     
- 
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }, 600);
+            } else {
+                section.classList.remove('active');
+            }
+        }
+    </script>
+
+</body>
+</html>

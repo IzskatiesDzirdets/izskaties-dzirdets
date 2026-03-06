@@ -1698,7 +1698,7 @@
                     <div class="contact-icon">📧</div>
                     <div class="contact-details">
                         <h3>E-pasts</h3>
-                        <p><a href="/cdn-cgi/l/email-janiszacs@gmail.com"><span class="__cf_email__" data-cfemail="janiszacs@gmail.com">[email&#160;protected]</span></a></p>
+                        <p><a id="contact-email-link" href="#" style="color: var(--primary); text-decoration: none;">janiszacs@gmail.com</a></p>
                         <p style="font-size: 0.9rem; margin-top: 0.5rem;">Atbildēšu 24 stundu laikā</p>
                     </div>
                 </div>
@@ -1765,7 +1765,7 @@
                     </svg>
                 </a>
                 
-                <a href="/cdn-cgi/l/email-janiszacs@gmail.com" aria-label="E-pasts" class="social-icon">
+                <a id="footer-email-link" href="#" aria-label="E-pasts" class="social-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                     </svg>
@@ -2591,6 +2591,23 @@
     <script src="https://app.chatbit.co/embed.min.js" defer></script>
     
     <script>
+        // E-pasta aizsardzība pret Cloudflare obfuscation
+        // Salikam adresi no daļām — CF nevar šifrēt JS mainīgos
+        (function() {
+            var u = 'janiszacs';
+            var d = 'gmail.com';
+            var email = u + '@' + d;
+            var contactLink = document.getElementById('contact-email-link');
+            if (contactLink) {
+                contactLink.href = 'mailto:' + email;
+                contactLink.textContent = email;
+            }
+            var footerLink = document.getElementById('footer-email-link');
+            if (footerLink) {
+                footerLink.href = 'mailto:' + email;
+            }
+        })();
+
         function toggleAccordion(sectionId) {
             const section = document.getElementById(sectionId);
             const allSections = document.querySelectorAll('.accordion-section');
@@ -2611,14 +2628,4 @@
                     
                     window.scrollTo({
                         top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }, 600);
-            } else {
-                section.classList.remove('active');
-            }
-        }
-    </script>
-
-</body>
-</html>
+                  

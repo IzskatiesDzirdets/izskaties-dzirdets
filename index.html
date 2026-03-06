@@ -255,13 +255,17 @@
             padding: 0 2rem;
         }
         
-        /* Accordion Sections */
+        /* Accordion Sections - CSS only, no JavaScript needed */
         .accordion-section {
             border-bottom: 3px solid var(--light-gray);
             background: white;
         }
 
-        .accordion-header {
+        details {
+            width: 100%;
+        }
+
+        summary.accordion-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -271,9 +275,15 @@
             background: linear-gradient(135deg, var(--dark) 0%, #2a4a72 100%);
             position: relative;
             overflow: hidden;
+            list-style: none;
+            user-select: none;
         }
 
-        .accordion-header::before {
+        summary.accordion-header::-webkit-details-marker {
+            display: none;
+        }
+
+        summary.accordion-header::before {
             content: '';
             position: absolute;
             top: 0;
@@ -284,46 +294,32 @@
             transition: left 0.5s ease;
         }
 
-        .accordion-header:hover::before {
+        summary.accordion-header:hover::before {
             left: 100%;
         }
 
-        .accordion-header:hover {
+        summary.accordion-header:hover {
             background: linear-gradient(135deg, var(--primary) 0%, #ff5a67 100%);
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(230, 57, 70, 0.3);
         }
 
-        .accordion-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: clamp(1.3rem, 3vw, 2rem);
-            color: white;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .accordion-icon {
+        summary.accordion-header::after {
+            content: '▼';
             font-size: 1.5rem;
             color: var(--accent);
             transition: transform 0.3s ease;
             flex-shrink: 0;
+            margin-left: auto;
+            padding-left: 1rem;
         }
 
-        .accordion-section.active .accordion-icon {
+        details[open] summary.accordion-header::after {
             transform: rotate(180deg);
         }
 
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-        }
-
-        .accordion-section.active .accordion-content {
-            max-height: 8000px;
+        details[open] summary.accordion-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #ff5a67 100%);
         }
 
         .accordion-inner {
@@ -1437,12 +1433,10 @@
 
     <!-- About Section -->
     <section id="about" class="about-section accordion-section">
-        <div class="accordion-header" onclick="toggleAccordion('about')">
+        <details><summary class="accordion-header">
             <h2 class="accordion-title">📖 Par Izskaties Dzirdēts</h2>
             <span class="accordion-icon">▼</span>
-        </div>
-        
-        <div class="accordion-content">
+        </summary>
             <div class="accordion-inner">
                 <div class="about-content">
                     <img src="stage-presentation.jpg" alt="Jānis Začs pasākumā" class="about-image">
@@ -1492,17 +1486,15 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </details>
     </section>
 
     <!-- Services Section -->
     <section id="services" class="accordion-section">
-        <div class="accordion-header" onclick="toggleAccordion('services')">
+        <details><summary class="accordion-header">
             <h2 class="accordion-title">🎤 Ko piedāvāju</h2>
             <span class="accordion-icon">▼</span>
-        </div>
-        
-        <div class="accordion-content">
+        </summary>
             <div class="accordion-inner">
                 <div class="services-grid">
                     
@@ -1580,17 +1572,15 @@
                     
                 </div>
             </div>
-        </div>
+        </details>
     </section>
 
     <!-- Photo Gallery Section -->
     <section id="gallery" class="gallery-section accordion-section">
-        <div class="accordion-header" onclick="toggleAccordion('gallery')">
+        <details><summary class="accordion-header">
             <h2 class="accordion-title">📸 Pasākumu galerija</h2>
             <span class="accordion-icon">▼</span>
-        </div>
-        
-        <div class="accordion-content">
+        </summary>
             <div class="accordion-inner">
                 <div class="photo-gallery">
                     <div class="gallery-item">
@@ -1636,17 +1626,15 @@
                     </div> 
                 </div>
             </div>
-        </div>
+        </details>
     </section>
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials-section accordion-section">
-        <div class="accordion-header" onclick="toggleAccordion('testimonials')">
+        <details><summary class="accordion-header">
             <h2 class="accordion-title">⭐ Ko saka klienti</h2>
             <span class="accordion-icon">▼</span>
-        </div>
-        
-        <div class="accordion-content">
+        </summary>
             <div class="accordion-inner">
                 <div class="testimonials-grid">
                     <div class="testimonial-card">
@@ -1677,7 +1665,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </details>
     </section>
 
     <!-- Booking Section with React -->
@@ -1758,7 +1746,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </details>
     </section>
 
     <!-- Footer -->
@@ -2633,7 +2621,7 @@
             var email = u + '@' + d;
             var contactLink = document.getElementById('contact-email-link');
             if (contactLink) {
-                contactLink.href = 'mailto:' +k.href = 'mailto:' + email;
+                contactLink.href = 'mailto:' + email;
             }
         })();
 

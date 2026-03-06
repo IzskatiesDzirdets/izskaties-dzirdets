@@ -92,19 +92,16 @@
             pointer-events: auto;
         }
 
-        /* Make text areas transparent for particles */
         .hero-stats,
         .tagline,
         .hero-description {
             pointer-events: none;
         }
 
-        /* But keep buttons clickable */
         .cta-button {
             pointer-events: auto;
         }
 
-        /* Scroll down arrow on hero */
         .hero-scroll-arrow {
             position: absolute;
             bottom: 2rem;
@@ -138,7 +135,6 @@
             50% { transform: translateX(-50%) translateY(10px); }
         }
 
-        /* Stats items need to be transparent too */
         .stat-item {
             pointer-events: none;
         }
@@ -1001,7 +997,6 @@
             transform: translateY(-5px);
         }
 
-        /* Social icon styling */
         .social-icon {
             display: inline-flex;
             align-items: center;
@@ -1096,24 +1091,89 @@
             }
         }
         
+        /* ========================================
+           MOBILE FIX - viss hero ietilpst ekrānā
+           ======================================== */
         @media (max-width: 768px) {
             body {
                 overflow-x: hidden;
             }
-            
-            .hero-logo {
-                width: 220px;
+
+            /* Hero - kompakts un centrēts mobilajā */
+            .hero {
+                min-height: 100svh; /* modern safe viewport */
+                min-height: 100vh; /* fallback */
+                align-items: center;
+                padding-top: 0;
+                padding-bottom: 3rem; /* vieta bultiņai */
             }
-            
+
+            .hero-content {
+                padding: 1rem 1.2rem 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 0; /* kontrolējam ar margin uz bērniem */
+            }
+
+            /* Logo - mazāks */
+            .hero-logo-container {
+                margin-bottom: 0.6rem;
+                animation: none; /* izslēdzam floating animāciju mobilā, lai ietaupītu vietu */
+            }
+
+            .hero-logo {
+                width: 150px;
+            }
+
+            /* Poga */
+            .cta-button {
+                padding: 0.65rem 1.6rem;
+                font-size: 0.9rem;
+                letter-spacing: 1.5px;
+                margin-bottom: 0.6rem;
+            }
+
+            /* Tagline */
+            .tagline {
+                font-size: 0.82rem;
+                margin-bottom: 0.5rem;
+                letter-spacing: 0.5px;
+            }
+
+            /* Stats */
+            .hero-stats {
+                gap: 1.2rem;
+                margin: 0.5rem 0;
+            }
+
+            .stat-number {
+                font-size: 1.7rem;
+            }
+
+            .stat-label {
+                font-size: 0.62rem;
+            }
+
+            /* Apraksts */
+            .hero-description {
+                font-size: 0.78rem;
+                line-height: 1.5;
+                margin-bottom: 0;
+            }
+
+            /* Bultiņa */
             .hero-scroll-arrow {
-                bottom: 1.5rem;
-                width: 50px;
-                height: 50px;
-                font-size: 1.8rem;
+                bottom: 0.8rem;
+                width: 38px;
+                height: 38px;
+                font-size: 1.3rem;
                 z-index: 100;
                 pointer-events: auto;
             }
-            
+
+            /* Accordion */
             .accordion-header {
                 padding: 1rem 1.2rem;
             }
@@ -1231,16 +1291,35 @@
         }
         
         @media (max-width: 480px) {
+            /* Ļoti mazi tālruņi */
+            .hero-logo {
+                width: 125px;
+            }
+
             .hero-stats {
-                gap: 1.5rem;
+                gap: 0.9rem;
             }
             
             .stat-number {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
             
             .stat-label {
-                font-size: 0.7rem;
+                font-size: 0.6rem;
+            }
+
+            .cta-button {
+                padding: 0.6rem 1.4rem;
+                font-size: 0.85rem;
+            }
+
+            .tagline {
+                font-size: 0.78rem;
+            }
+
+            .hero-description {
+                font-size: 0.73rem;
+                line-height: 1.45;
             }
             
             .booking-section {
@@ -1269,6 +1348,21 @@
             
             .calendar-day.selected .day-number {
                 font-size: 0.85rem;
+            }
+        }
+
+        /* Ļoti mazi ekrāni (SE, Galaxy A series u.c.) */
+        @media (max-width: 375px) {
+            .hero-logo {
+                width: 110px;
+            }
+
+            .stat-number {
+                font-size: 1.4rem;
+            }
+
+            .hero-description {
+                font-size: 0.7rem;
             }
         }
     </style>

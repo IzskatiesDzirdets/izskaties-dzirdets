@@ -8,8 +8,8 @@
     <meta name="description" content="Izskaties Dzirdēts piedāvā profesionālu pasākumu vadību un interaktīvas viktorīnas. Vadītājs Jānis Začs ar 14+ gadu pieredzi vairāk nekā 500 pasākumos.">
 
     <link rel="apple-touch-icon" sizes="180x180" href="logo-favicon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="logo-favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="logo-favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo-favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="logo-favicon.png">
     
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -56,23 +56,17 @@
         }
         
         .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #FFFFFF;
-    overflow: hidden;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    padding: 2rem 0;
-}
-        .hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            overflow: hidden;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            padding: 0;
+        }
         
         #particles-js {
             position: absolute;
@@ -94,70 +88,60 @@
             pointer-events: none;
         }
 
-        .hero-content > *{
-margin:10px 0;
-}
-        /* Make text areas transparent for particles */
-.hero-stats,
-.tagline,
-.hero-description {
-    pointer-events: none;
-}
+        .hero-content > * {
+            pointer-events: auto;
+        }
 
-/* But keep buttons clickable */
-.cta-button {
-    pointer-events: auto;
-}
+        /* Make text areas transparent for particles */
+        .hero-stats,
+        .tagline,
+        .hero-description {
+            pointer-events: none;
+        }
+
+        /* But keep buttons clickable */
+        .cta-button {
+            pointer-events: auto;
+        }
 
         /* Scroll down arrow on hero */
-/* Scroll down arrow on hero */
-.hero-scroll-arrow {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2rem;
-    color: var(--primary);
-    cursor: pointer;
-    animation: bounceArrow 2s infinite;
-    z-index: 100;  /* was 10 - MUCH HIGHER! */
-    background: rgba(255,255,255,0.9);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 5px 20px rgba(230, 57, 70, 0.3);
-    transition: all 0.3s ease;
-    pointer-events: auto;  /* NEW - FORCE CLICKABLE */
-}
+        .hero-scroll-arrow {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--primary);
+            cursor: pointer;
+            animation: bounceArrow 2s infinite;
+            z-index: 100;
+            background: rgba(255,255,255,0.9);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.3);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+        }
 
-.hero-scroll-arrow:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateX(-50%) translateY(-5px);
-}
+        .hero-scroll-arrow:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(-50%) translateY(-5px);
+        }
 
-@keyframes bounceArrow {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(10px); }
-}
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
 
-@media (max-width: 768px) {
-    .hero-scroll-arrow {
-        bottom: 1.5rem;
-        width: 50px;  /* was 45px - bigger */
-        height: 50px;  /* was 45px */
-        font-size: 1.8rem;  /* was 1.5rem - bigger */
-        z-index: 100;  /* ensure above everything */
-        pointer-events: auto;  /* force clickable */
-    }
-}
-/* Stats items need to be transparent too */
-.stat-item {
-    pointer-events: none;
-}
+        /* Stats items need to be transparent too */
+        .stat-item {
+            pointer-events: none;
+        }
         
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
@@ -165,20 +149,20 @@ margin:10px 0;
         }
         
         .hero-logo-container {
-    margin-bottom: 1.5rem;  /* space before button */
-    margin-top: 0;
-    animation: floatLogo 3s ease-in-out infinite;
-    position: relative;
-    z-index: 10;
-    pointer-events: none;
-}
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+            animation: floatLogo 3s ease-in-out infinite;
+            position: relative;
+            z-index: 10;
+            pointer-events: none;
+        }
 
         .hero-logo-container img {
             pointer-events: auto;
         }
         
         .hero-logo {
-            width: 320px;
+            width: 260px;
             height: auto;
             filter: drop-shadow(0 10px 30px rgba(0,0,0,0.1));
         }
@@ -189,33 +173,33 @@ margin:10px 0;
         }
         
         .tagline {
-    font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-    color: var(--primary);
-    font-weight: 400;
-    margin-bottom: 0.8rem;  /* space before stats */
-    font-family: 'Oswald', sans-serif;
-    letter-spacing: 1px;
-}
+            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+            color: var(--primary);
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
         
         .hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin: 0.8rem 0;  /* space around stats */
-    flex-wrap: wrap;
-}
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 0.8rem 0;
+            flex-wrap: wrap;
+        }
         
         .stat-item {
             text-align: center;
         }
         
         .stat-number {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.5rem);  /* smaller */
-    color: var(--primary);
-    line-height: 1;
-    margin-bottom: 0.3rem;  /* was 0.5rem */
-}
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
         
         .stat-label {
             font-family: 'Oswald', sans-serif;
@@ -226,33 +210,32 @@ margin:10px 0;
         }
         
         .hero-description {
-    color: var(--text);
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    margin-bottom: 0;  /* no space after (arrow is outside) */
-    max-width: 650px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.5;
-}
+            color: var(--text);
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            margin-bottom: 0;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
         
         .cta-button {
-    display: inline-block;
-    padding: 1rem 2.5rem;  /* bigger button */
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.1rem;  /* bigger text */
-    letter-spacing: 2px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    border-radius: 50px;
-    box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
-    margin-bottom: 1.5rem;  /* space after button */
-    pointer-events: auto;  /* clickable */
-}
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(230, 57, 70, 0.3);
+            margin-bottom: 1.5rem;
+        }
         
         .cta-button:hover {
             transform: translateY(-5px);
@@ -279,11 +262,11 @@ margin:10px 0;
         }
 
         .accordion-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem 1.5rem;  /* was 1.5rem 2rem */
-    cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
             transition: all 0.3s ease;
             background: linear-gradient(135deg, var(--dark) 0%, #2a4a72 100%);
             position: relative;
@@ -1017,40 +1000,29 @@ margin:10px 0;
             color: var(--accent);
             transform: translateY(-5px);
         }
-        .social-links a {
-    color: var(--secondary);
-    font-size: 2rem;
-    transition: all 0.3s ease;
-    text-decoration: none;
-}
 
-.social-links a:hover {
-    color: var(--accent);
-    transform: translateY(-5px);
-}
+        /* Social icon styling */
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
 
-/* Social icon styling */
-.social-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.1);
-    transition: all 0.3s ease;
-}
+        .social-icon svg {
+            width: 24px;
+            height: 24px;
+        }
 
-.social-icon svg {
-    width: 24px;
-    height: 24px;
-}
-
-.social-icon:hover {
-    background: var(--accent);
-    color: var(--dark);
-    transform: translateY(-5px) scale(1.1);
-}
+        .social-icon:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: translateY(-5px) scale(1.1);
+        }
         
         /* Floating Navigation */
         .section-nav {
@@ -1130,7 +1102,16 @@ margin:10px 0;
             }
             
             .hero-logo {
-                width: 280px;
+                width: 220px;
+            }
+            
+            .hero-scroll-arrow {
+                bottom: 1.5rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+                z-index: 100;
+                pointer-events: auto;
             }
             
             .accordion-header {
@@ -1290,10 +1271,10 @@ margin:10px 0;
                 font-size: 0.85rem;
             }
         }
-
-    
+    </style>
 </head>
 
+<body>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   (function(){
@@ -1307,274 +1288,268 @@ margin:10px 0;
 <!-- Particles.js -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-<body>
     <!-- Hero Section -->
-   <section class="hero">
-    <div id="particles-js"></div>
-    <div class="hero-content">
-        
-        <!-- 1. LOGO -->
-        <div class="hero-logo-container">
-            <img src="logo.png" alt="Izskaties Dzirdēts" class="hero-logo">
+    <section class="hero">
+        <div id="particles-js"></div>
+        <div class="hero-content">
+            
+            <!-- 1. LOGO -->
+            <div class="hero-logo-container">
+                <img src="logo.png" alt="Izskaties Dzirdēts" class="hero-logo">
+            </div>
+            
+            <!-- 2. BUTTON -->
+            <a href="#booking" class="cta-button">Rezervēt konsultāciju</a>
+            
+            <!-- 3. TAGLINE -->
+            <p class="tagline">Pasākumi un viktorīnas ar raksturu</p>
+            
+            <!-- 4. STATS -->
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">14+</div>
+                    <div class="stat-label">Gadu pieredze</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Pasākumi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Aizraušana</div>
+                </div>
+            </div>
+            
+            <!-- 5. DESCRIPTION -->
+            <p class="hero-description">
+                Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, publiskiem un korporatīviem pasākumiem
+            </p>
+            
         </div>
         
-        <!-- 2. BUTTON (RIGHT AFTER LOGO!) -->
-        <a href="#booking" class="cta-button">Rezervēt konsultāciju</a>
-        
-        <!-- 3. TAGLINE -->
-        <p class="tagline">Pasākumi un viktorīnas ar raksturu</p>
-        
-        <!-- 4. STATS -->
-        <div class="hero-stats">
-            <div class="stat-item">
-                <div class="stat-number">14+</div>
-                <div class="stat-label">Gadu pieredze</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">500+</div>
-                <div class="stat-label">Pasākumi</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Aizraušana</div>
-            </div>
+        <!-- 6. ARROW (outside hero-content) -->
+        <div class="hero-scroll-arrow" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
+            ↓
         </div>
-        
-        <!-- 5. DESCRIPTION -->
-        <p class="hero-description">
-            Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, publiskiem un korporatīviem pasākumiem
-        </p>
-        
-    </div>
-    
-    <!-- 6. ARROW (OUTSIDE hero-content) -->
-    <div class="hero-scroll-arrow" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
-        ↓
-    </div>
-</section>
-
-
-<p class="hero-description">
-Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, publiskiem un korporatīviem pasākumiem
-</p>
-
-</div>
     </section>
-   <!-- About Section -->
-<section id="about" class="about-section accordion-section">
-    <div class="accordion-header" onclick="toggleAccordion('about')">
-        <h2 class="accordion-title">📖 Par Izskaties Dzirdēts</h2>
-        <span class="accordion-icon">▼</span>
-    </div>
-    
-    <div class="accordion-content">
-        <div class="accordion-inner">
-            <div class="about-content">
-                <img src="stage-presentation.jpg" alt="Jānis Začs pasākumā" class="about-image">
-                
-                <div class="about-text">
-                    <p>
-                        <strong>"Izskaties Dzirdēts"</strong> ir profesionālu pasākumu un intelektuālas izklaides zīmols, kura pamatā ir dzīva saikne ar auditoriju un kvalitāte katrā detaļā.
-                    </p>
 
-                    <p>
-                        Zīmolu izveidojis <strong>Jānis Začs</strong> — pasākumu vadītājs ar vairāk nekā 14 gadu pieredzi un 500+ vadītiem pasākumiem. 
-                        Viņš ir viens no <strong>"Prāta Spēles"</strong> aizsācējiem — projektam, kas Latvijā no nišas idejas izauga par kustību.
-                    </p>
+    <!-- About Section -->
+    <section id="about" class="about-section accordion-section">
+        <div class="accordion-header" onclick="toggleAccordion('about')">
+            <h2 class="accordion-title">📖 Par Izskaties Dzirdēts</h2>
+            <span class="accordion-icon">▼</span>
+        </div>
+        
+        <div class="accordion-content">
+            <div class="accordion-inner">
+                <div class="about-content">
+                    <img src="stage-presentation.jpg" alt="Jānis Začs pasākumā" class="about-image">
+                    
+                    <div class="about-text">
+                        <p>
+                            <strong>"Izskaties Dzirdēts"</strong> ir profesionālu pasākumu un intelektuālas izklaides zīmols, kura pamatā ir dzīva saikne ar auditoriju un kvalitāte katrā detaļā.
+                        </p>
 
-                    <p>
-                        Gadu gaitā vadīti pasākumi no privātiem notikumiem un uzņēmumu pasākumiem līdz lielām festivālu skatuvēm,  
-                        strādājot kopā ar <strong>Valteru Krauzi, Oskaru Leperi, Māri Grigali, Normundu Avotiņu</strong> un citiem profesionāļiem.
-                    </p>
+                        <p>
+                            Zīmolu izveidojis <strong>Jānis Začs</strong> — pasākumu vadītājs ar vairāk nekā 14 gadu pieredzi un 500+ vadītiem pasākumiem. 
+                            Viņš ir viens no <strong>"Prāta Spēles"</strong> aizsācējiem — projektam, kas Latvijā no nišas idejas izauga par kustību.
+                        </p>
 
-                    <div class="about-highlight">
-                        <strong>💡 Svarīgākais nav skatuves lielums. Svarīgākais ir savienojums ar auditoriju.</strong>
+                        <p>
+                            Gadu gaitā vadīti pasākumi no privātiem notikumiem un uzņēmumu pasākumiem līdz lielām festivālu skatuvēm,  
+                            strādājot kopā ar <strong>Valteru Krauzi, Oskaru Leperi, Māri Grigali, Normundu Avotiņu</strong> un citiem profesionāļiem.
+                        </p>
+
+                        <div class="about-highlight">
+                            <strong>💡 Svarīgākais nav skatuves lielums. Svarīgākais ir savienojums ar auditoriju.</strong>
+                        </div>
+
+                        <p>
+                            No īsas sarunas līdz gatavam risinājumam — mērķis ir viens: 
+                            lai pasākums noritētu pārliecinoši, plūstoši un bez lieka stresa.
+                        </p>
+
+                        <p>
+                            Klientam tas nozīmē mieru. 
+                            Viesiem — iesaisti. 
+                            Pasākumam — ritmu.
+                        </p>
+
+                        <p>
+                            <strong>Tehniski daudz ko var atkārtot. Attieksmi, iedziļināšanos un klātbūtni — nevar.</strong>
+                        </p>
+
+                        <p>
+                            "Izskaties Dzirdēts" nodrošina šo pieeju neatkarīgi no tā, vai pasākumu vada pats Jānis vai viņa piemeklēts profesionāls vadītājs.
+                        </p>
+
+                        <p>
+                            Programma starp ēdieniem, komandas saliedēšana vai auditorijas aktivizēšana —
+                            katru reizi mērķis ir viens: lai jūs tiktu sadzirdēti un pasākums būtu profesionāli vadīts no pirmās minūtes līdz pēdējai.
+                        </p>
                     </div>
-
-                    <p>
-                        No īsas sarunas līdz gatavam risinājumam — mērķis ir viens: 
-                        lai pasākums noritētu pārliecinoši, plūstoši un bez lieka stresa.
-                    </p>
-
-                    <p>
-                        Klientam tas nozīmē mieru. 
-                        Viesiem — iesaisti. 
-                        Pasākumam — ritmu.
-                    </p>
-
-                    <p>
-                        <strong>Tehniski daudz ko var atkārtot. Attieksmi, iedziļināšanos un klātbūtni — nevar.</strong>
-                    </p>
-
-                    <p>
-                        "Izskaties Dzirdēts" nodrošina šo pieeju neatkarīgi no tā, vai pasākumu vada pats Jānis vai viņa piemeklēts profesionāls vadītājs.
-                    </p>
-
-                    <p>
-                        Programma starp ēdieniem, komandas saliedēšana vai auditorijas aktivizēšana —
-                        katru reizi mērķis ir viens: lai jūs tiktu sadzirdēti un pasākums būtu profesionāli vadīts no pirmās minūtes līdz pēdējai.
-                    </p>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Services Section -->
-<section id="services" class="accordion-section">
-    <div class="accordion-header" onclick="toggleAccordion('services')">
-        <h2 class="accordion-title">🎤 Ko piedāvāju</h2>
-        <span class="accordion-icon">▼</span>
-    </div>
-    
-    <div class="accordion-content">
-        <div class="accordion-inner">
-            <div class="services-grid">
-                
-                <!-- Card 1 -->
-                <div class="service-card">
-                    <div class="service-icon">🎤</div>
-                    <h3 class="service-title">Korporatīvie pasākumi</h3>
-                    <p class="service-description">
-                        Prāta spēles, viktorīnas un interaktīvas aktivitātes, kas saliedē komandu, aktivizē auditoriju un rada īstu iesaisti. Dinamiska programma, kas pielāgota uzņēmuma mērķiem.
-                    </p>
-                    <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
-                        Pieteikties
-                    </button>
+    <section id="services" class="accordion-section">
+        <div class="accordion-header" onclick="toggleAccordion('services')">
+            <h2 class="accordion-title">🎤 Ko piedāvāju</h2>
+            <span class="accordion-icon">▼</span>
+        </div>
+        
+        <div class="accordion-content">
+            <div class="accordion-inner">
+                <div class="services-grid">
+                    
+                    <!-- Card 1 -->
+                    <div class="service-card">
+                        <div class="service-icon">🎤</div>
+                        <h3 class="service-title">Korporatīvie pasākumi</h3>
+                        <p class="service-description">
+                            Prāta spēles, viktorīnas un interaktīvas aktivitātes, kas saliedē komandu, aktivizē auditoriju un rada īstu iesaisti. Dinamiska programma, kas pielāgota uzņēmuma mērķiem.
+                        </p>
+                        <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
+                            Pieteikties
+                        </button>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="service-card">
+                        <div class="service-icon">💍</div>
+                        <h3 class="service-title">Kāzas un privātie svētki</h3>
+                        <p class="service-description">
+                            Jūsu īpašā diena, būs neaizmirstama ar inteliģentu humoru, gudrām spēlēm un emocionāliem mirkļiem. Personalizētas prāta spēles viesiem, dinamiska vadība.
+                        </p>
+                        <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
+                            Pieteikties
+                        </button>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="service-card">
+                        <div class="service-icon">🎉</div>
+                        <h3 class="service-title">Dzimšanas dienas un jubilejas</h3>
+                        <p class="service-description">
+                            Radītas tieši Jums un Jūsu cilvēkiem — spēles, kas atspoguļo jubilāru, draugus un kopīgus mirkļus. Izklaide ar raksturu un smiekliem, interaktīvi elementi visām paaudzēm.
+                        </p>
+                        <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
+                            Pieteikties
+                        </button>
+                    </div>
+                    
+                    <!-- Card 4 -->
+                    <div class="service-card">
+                        <div class="service-icon">🚀</div>
+                        <h3 class="service-title">Produktu prezentācijas</h3>
+                        <p class="service-description">
+                            "Izskaties Dzirdēts" palīdzēs Jūsu produktam vai idejai izcelties un tikt pamanītam. Interaktīvas viktorīnas un prāta spēles, kas piesaista uzmanību un rada iespaidu, kā arī sniedz atgriezenisko saiti.
+                        </p>
+                        <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
+                            Pieteikties
+                        </button>
+                    </div>
+                    
                 </div>
-                
-                <!-- Card 2 -->
-                <div class="service-card">
-                    <div class="service-icon">💍</div>
-                    <h3 class="service-title">Kāzas un privātie svētki</h3>
-                    <p class="service-description">
-                       Jūsu īpašā diena, būs neaizmirstama ar inteliģentu humoru, gudrām spēlēm un emocionāliem mirkļiem. Personalizētas prāta spēles viesiem, dinamiska vadība.
-                    </p>
-                    <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
-                        Pieteikties
-                    </button>
-                </div>
-                
-                <!-- Card 3 -->
-                <div class="service-card">
-                    <div class="service-icon">🎉</div>
-                    <h3 class="service-title">Dzimšanas dienas un jubilejas</h3>
-                    <p class="service-description">
-                        Radītas tieši Jums un Jūsu cilvēkiem — spēles, kas atspoguļo jubilāru, draugus un kopīgus mirkļus. Izklaide ar raksturu un smiekliem, interaktīvi elementi visām paaudzēm.
-                    </p>
-                    <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
-                        Pieteikties
-                    </button>
-                </div>
-                
-                <!-- Card 4 -->
-                <div class="service-card">
-                    <div class="service-icon">🚀</div>
-                    <h3 class="service-title">Produktu prezentācijas</h3>
-                    <p class="service-description">
-                        "Izskaties Dzirdēts" palīdzēs Jūsu produktam vai idejai izcelties un tikt pamanītam. Interaktīvas viktorīnas un prāta spēles, kas piesaista uzmanību un rada iespaidu, kā arī sniedz atgriezenisko saiti.
-                    </p>
-                    <button class="service-cta" onclick="document.getElementById('booking').scrollIntoView({behavior: 'smooth'})">
-                        Pieteikties
-                    </button>
-                </div>
-                
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Photo Gallery Section -->
     <section id="gallery" class="gallery-section accordion-section">
-    <div class="accordion-header" onclick="toggleAccordion('gallery')">
-        <h2 class="accordion-title">📸 Pasākumu galerija</h2>
-        <span class="accordion-icon">▼</span>
-    </div>
-    
-    <div class="accordion-content">
-        <div class="accordion-inner">
-        <div class="photo-gallery">
-            <div class="gallery-item">
-                <img src="hero-event.jpg" alt="Pasākums ar balvām">
-                <div class="gallery-overlay">
-                    <div class="gallery-overlay-title">Korporatīvs pasākums</div>
+        <div class="accordion-header" onclick="toggleAccordion('gallery')">
+            <h2 class="accordion-title">📸 Pasākumu galerija</h2>
+            <span class="accordion-icon">▼</span>
+        </div>
+        
+        <div class="accordion-content">
+            <div class="accordion-inner">
+                <div class="photo-gallery">
+                    <div class="gallery-item">
+                        <img src="hero-event.jpg" alt="Pasākums ar balvām">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-title">Korporatīvs pasākums</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="cinema-event.jpg" alt="Kino viktorīna">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-title">Publiskā viktorīna kinoteātrī</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="corporate-stage.jpg" alt="Grindex pasākums">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-title">Premium korporatīvs pasākums</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="large-audience.jpg" alt="Liela auditorija">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-title">Lielformāta pasākums</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="tv-appearance.jpg" alt="TV raidījums">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-title">TV raidījums "Rīta Panorāma"</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="stage-presentation.jpg" alt="Skatuves prezentācija">
+                        <div class="gallery-overlay">
+                            <div class="gallery-overlay-title">Profesionāla pasākumu organizēšana</div>
+                        </div>
+                    </div> 
                 </div>
-            </div>
-            
-            <div class="gallery-item">
-                <img src="cinema-event.jpg" alt="Kino viktorīna">
-                <div class="gallery-overlay">
-                    <div class="gallery-overlay-title">Publiskā viktorīna kinoteātrī</div>
-                </div>
-            </div>
-            
-            <div class="gallery-item">
-                <img src="corporate-stage.jpg" alt="Grindex pasākums">
-                <div class="gallery-overlay">
-                    <div class="gallery-overlay-title">Premium korporatīvs pasākums</div>
-                </div>
-            </div>
-            
-            <div class="gallery-item">
-                <img src="large-audience.jpg" alt="Liela auditorija">
-                <div class="gallery-overlay">
-                    <div class="gallery-overlay-title">Lielformāta pasākums</div>
-                </div>
-            </div>
-            
-            <div class="gallery-item">
-                <img src="tv-appearance.jpg" alt="TV raidījums">
-                <div class="gallery-overlay">
-                    <div class="gallery-overlay-title">TV raidījums "Rīta Panorāma"</div>
-                </div>
-            </div>
-            
-            <div class="gallery-item">
-                <img src="stage-presentation.jpg" alt="Skatuves prezentācija">
-                <div class="gallery-overlay">
-                    <div class="gallery-overlay-title">Profesionāla pasākumu organizēšana</div>
-                </div>
-                </div> 
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials-section accordion-section">
-    <div class="accordion-header" onclick="toggleAccordion('testimonials')">
-        <h2 class="accordion-title">⭐ Ko saka klienti</h2>
-        <span class="accordion-icon">▼</span>
-    </div>
-    
-    <div class="accordion-content">
+        <div class="accordion-header" onclick="toggleAccordion('testimonials')">
+            <h2 class="accordion-title">⭐ Ko saka klienti</h2>
+            <span class="accordion-icon">▼</span>
+        </div>
+        
+        <div class="accordion-content">
             <div class="accordion-inner">
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-quote">"</div>
-                <p class="testimonial-text">
-                    Jānis ne tikai vada viktorīnu, bet patiešām saliedē komandu. Mūsu darbinieki vēl tagad atceras tos mirkļus un citē spēles jokus!
-                </p>
-                <div class="testimonial-author">Edgars Blūms</div>
-                <div class="testimonial-role">Rūpnīcas direktors, Hortimed</div>
-            </div>
-            
-            <div class="testimonial-card">
-                <div class="testimonial-quote">"</div>
-                <p class="testimonial-text">
-                    Viesi joprojām saka, ka tā bija labākā kāzu izklaide, ko viņi redzējuši. Jānis sajuta mūsu viesus un radīja maģiju!
-                </p>
-                <div class="testimonial-author">Mārtiņš un Viktorija</div>
-                <div class="testimonial-role">2025. gada kāzas</div>
-            </div>
-            
-            <div class="testimonial-card">
-                <div class="testimonial-quote">"</div>
-                <p class="testimonial-text">
-                    50. jubileja bija perfekta! Jānis iesaistīja gan 18, gan 80 gadus vecus viesus. Visi smējās un dalījās atmiņās.
-                </p>
-                <div class="testimonial-author">Roberts Liepiņš</div>
-                <div class="testimonial-role">Uzņēmējs</div>
-            </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <p class="testimonial-text">
+                            Jānis ne tikai vada viktorīnu, bet patiešām saliedē komandu. Mūsu darbinieki vēl tagad atceras tos mirkļus un citē spēles jokus!
+                        </p>
+                        <div class="testimonial-author">Edgars Blūms</div>
+                        <div class="testimonial-role">Rūpnīcas direktors, Hortimed</div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <p class="testimonial-text">
+                            Viesi joprojām saka, ka tā bija labākā kāzu izklaide, ko viņi redzējuši. Jānis sajuta mūsu viesus un radīja maģiju!
+                        </p>
+                        <div class="testimonial-author">Mārtiņš un Viktorija</div>
+                        <div class="testimonial-role">2025. gada kāzas</div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <p class="testimonial-text">
+                            50. jubileja bija perfekta! Jānis iesaistīja gan 18, gan 80 gadus vecus viesus. Visi smējās un dalījās atmiņās.
+                        </p>
+                        <div class="testimonial-author">Roberts Liepiņš</div>
+                        <div class="testimonial-role">Uzņēmējs</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1646,34 +1621,34 @@ Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, pub
 
     <!-- Footer -->
     <footer>
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="social-links">
-            <a href="https://www.facebook.com/share/1CPPnB7vAS/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-            </a>
-            <a href="https://www.instagram.com/izskatiesdzirdets" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-            </a>
-            <a href="https://www.tiktok.com/@izskatiesdzirdets" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                </svg>
-            </a>
-            <a href="mailto:janiszacs@gmail.com" aria-label="E-pasts" class="social-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                </svg>
-            </a>
-            <a href="tel:+37125555224" aria-label="Telefons" class="social-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                </svg>
-            </a>
-        </div>
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/1CPPnB7vAS/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/izskatiesdzirdets" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="https://www.tiktok.com/@izskatiesdzirdets" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    </svg>
+                </a>
+                <a href="mailto:janiszacs@gmail.com" aria-label="E-pasts" class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </a>
+                <a href="tel:+37125555224" aria-label="Telefons" class="social-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                    </svg>
+                </a>
+            </div>
             <p style="font-family: 'Oswald', sans-serif; font-size: 1.5rem; margin-bottom: 1rem;">
                 IZSKATIES DZIRDĒTS
             </p>
@@ -2198,21 +2173,20 @@ Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, pub
     </script>
 
     <!-- Smooth scroll script -->
-<script>
-  // Smooth scroll tikai, kad klikšķinām uz iekšējiem linkiem (#id)
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
-      }
-    });
-  });
-</script>
+    </script>
     
     <script>
         particlesJS('particles-js', {
@@ -2293,66 +2267,62 @@ Profesionālas, aizraujošas viktorīnas un pasākumu vadīšana privātiem, pub
             }, { passive: false });
         }
     </script>
+    
     <script>
-  window.cbConfig = {
-    chatId: "9bb1d50d-f5d3-4d53-b5f0-91247e730acd"
-  };
-</script>
-<script src="https://app.chatbit.co/embed.min.js" defer>
+        window.cbConfig = {
+            chatId: "9bb1d50d-f5d3-4d53-b5f0-91247e730acd"
+        };
+    </script>
+    <script src="https://app.chatbit.co/embed.min.js" defer></script>
     
-</script>
-   <script>
-// Accordion functionality
-function toggleAccordion(sectionId) {
-    const section = document.getElementById(sectionId);
-    const allSections = document.querySelectorAll('.accordion-section');
-    const wasActive = section.classList.contains('active');
-    
-    // Close all other sections
-    allSections.forEach(s => {
-        if (s.id !== sectionId) {
-            s.classList.remove('active');
-        }
-    });
-    
-    // Toggle current section
-    if (!wasActive) {
-        section.classList.add('active');
-        
-        // Scroll to section header AFTER animation completes
-        setTimeout(() => {
-            const headerOffset = 0; // Adjust if needed
-            const elementPosition = section.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    <script>
+        function toggleAccordion(sectionId) {
+            const section = document.getElementById(sectionId);
+            const allSections = document.querySelectorAll('.accordion-section');
+            const wasActive = section.classList.contains('active');
             
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
+            allSections.forEach(s => {
+                if (s.id !== sectionId) {
+                    s.classList.remove('active');
+                }
             });
-        }, 600); // Wait for accordion animation (0.5s) + buffer
-    } else {
-        section.classList.remove('active');
-    }
-}
-</script>
+            
+            if (!wasActive) {
+                section.classList.add('active');
+                
+                setTimeout(() => {
+                    const headerOffset = 0;
+                    const elementPosition = section.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }, 600);
+            } else {
+                section.classList.remove('active');
+            }
+        }
+    </script>
 
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "EventService",
-  "name": "Izskaties Dzirdēts",
-  "description": "Profesionāla pasākumu vadība un interaktīvas viktorīnas Latvijā. Vadītājs Jānis Začs ar 14+ gadu pieredzi un 500+ pasākumiem.",
-  "provider": {
-    "@type": "Person",
-    "name": "Jānis Začs"
-  },
-  "areaServed": "Latvija",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://izskatiesdzirdets.github.io/izskaties-dzirdets/"
-  }
-}
-</script>
+    {
+      "@context": "https://schema.org",
+      "@type": "EventService",
+      "name": "Izskaties Dzirdēts",
+      "description": "Profesionāla pasākumu vadība un interaktīvas viktorīnas Latvijā. Vadītājs Jānis Začs ar 14+ gadu pieredzi un 500+ pasākumiem.",
+      "provider": {
+        "@type": "Person",
+        "name": "Jānis Začs"
+      },
+      "areaServed": "Latvija",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://izskatiesdzirdets.github.io/izskaties-dzirdets/"
+      }
+    }
+    </script>
     
 </body>
 </html>

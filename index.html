@@ -1698,7 +1698,7 @@
                     <div class="contact-icon">📧</div>
                     <div class="contact-details">
                         <h3>E-pasts</h3>
-                        <p><a id="contact-email-link" href="#" style="color: var(--primary); text-decoration: none;">janiszacs@gmail.com</a></p>
+                        <p><a id="contact-email-link" href="#" style="color: var(--primary); text-decoration: none;"><span class="__cf_email__" data-cfemail="92f8f3fcfbe1e8f3f1e1d2f5fff3fbfebcf1fdff">[email&#160;protected]</span></a></p>
                         <p style="font-size: 0.9rem; margin-top: 0.5rem;">Atbildēšu 24 stundu laikā</p>
                     </div>
                 </div>
@@ -1797,7 +1797,7 @@
     </div>
 
     <!-- React Booking Component -->
-    <script data-cfasync="false" type="text/babel">
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" type="text/babel">
         const { useState, useEffect } = React;
 
         const SUPABASE_URL = 'https://ibnvqljclchzlbvfwugj.supabase.co';
@@ -2599,12 +2599,7 @@
             var email = u + '@' + d;
             var contactLink = document.getElementById('contact-email-link');
             if (contactLink) {
-                contactLink.href = 'mailto:' + email;
-                contactLink.textContent = email;
-            }
-            var footerLink = document.getElementById('footer-email-link');
-            if (footerLink) {
-                footerLink.href = 'mailto:' + email;
+                contactLink.href = 'mailto:' +k.href = 'mailto:' + email;
             }
         })();
 
@@ -2628,4 +2623,14 @@
                     
                     window.scrollTo({
                         top: offsetPosition,
-                  
+                                          behavior: 'smooth'
+                    });
+                }, 600);
+            } else {
+                section.classList.remove('active');
+            }
+        }
+    </script>
+
+</body>
+</html>

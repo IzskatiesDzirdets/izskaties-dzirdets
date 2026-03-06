@@ -1128,7 +1128,7 @@
             /* Logo - lielāks! */
             .hero-logo-container {
                 margin-bottom: 0.8rem;
-                animation: none;
+                animation: floatLogo 3s ease-in-out infinite;
             }
 
             .hero-logo {
@@ -2291,73 +2291,28 @@
     </script>
     
     <script>
+        // ── PARTICLES INIT ──────────────────────────────────────────
         particlesJS('particles-js', {
             particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: ['#E63946', '#1D3557', '#FFD93D']
-                },
-                shape: {
-                    type: 'circle'
-                },
-                opacity: {
-                    value: 0.5,
-                    random: true
-                },
-                size: {
-                    value: 3,
-                    random: true
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#E63946',
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: ['#E63946', '#1D3557', '#FFD93D'] },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#E63946', opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 2, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false }
             },
             interactivity: {
                 detect_on: 'canvas',
                 events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'grab'
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
-                    },
-                    ontouchmove: {
-                        enable: true,
-                        mode: 'grab'
-                    },
+                    onhover: { enable: true, mode: 'grab' },
+                    onclick: { enable: true, mode: 'push' },
+                    ontouchmove: { enable: true, mode: 'grab' },
                     resize: true
                 },
                 modes: {
-                    grab: {
-                        distance: 140,
-                        line_linked: {
-                            opacity: 0.5
-                        }
-                    },
-                    push: {
-                        particles_nb: 4
-                    }
+                    grab: { distance: 140, line_linked: { opacity: 0.5 } },
+                    push: { particles_nb: 4 }
                 }
             },
             retina_detect: true
@@ -2368,7 +2323,231 @@
                 e.preventDefault();
             }, { passive: false });
         }
+
+        // ── LOGO CLICK MAGIC ─────────────────────────────────────────
+        // 5 themes cycling on each click
+        const logoModes = [
+            {
+                name: 'fireworks',     // 🎆 ugunsgrēks — pasākuma sākums!
+                color: ['#E63946', '#FF6B6B', '#FFD93D', '#FF8C00'],
+                speed: 12,
+                shape: 'circle',
+                size: 5,
+                linked: false,
+                lineColor: '#FFD93D',
+                burst: 30,
+                emoji: '🎆'
+            },
+            {
+                name: 'quiz',          // 🧠 viktorīnas mode — zvaigznes un jautājumzīmes
+                color: ['#1D3557', '#457B9D', '#A8DADC', '#F1FAEE'],
+                speed: 3,
+                shape: 'star',
+                size: 4,
+                linked: true,
+                lineColor: '#457B9D',
+                burst: 15,
+                emoji: '🧠'
+            },
+            {
+                name: 'party',         // 🎉 ballītes mode — konfetti krāsas
+                color: ['#FF6B9D', '#C77DFF', '#FFD93D', '#06D6A0', '#E63946'],
+                speed: 8,
+                shape: 'circle',
+                size: 6,
+                linked: false,
+                lineColor: '#C77DFF',
+                burst: 40,
+                emoji: '🎉'
+            },
+            {
+                name: 'stage',         // 🎤 skatuves mode — zelta gaismas
+                color: ['#FFD700', '#FFA500', '#FFFACD', '#FFD93D'],
+                speed: 5,
+                shape: 'circle',
+                size: 3,
+                linked: true,
+                lineColor: '#FFD700',
+                burst: 20,
+                emoji: '🎤'
+            },
+            {
+                name: 'calm',          // default — atpakaļ uz sākumu
+                color: ['#E63946', '#1D3557', '#FFD93D'],
+                speed: 2,
+                shape: 'circle',
+                size: 3,
+                linked: true,
+                lineColor: '#E63946',
+                burst: 4,
+                emoji: '✨'
+            }
+        ];
+
+        let currentMode = 4; // starts at 'calm'
+
+        // Toast notification
+        function showToast(emoji, name) {
+            const existing = document.getElementById('logo-toast');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.id = 'logo-toast';
+            toast.style.cssText = `
+                position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+                background: rgba(29,53,87,0.95); color: white;
+                padding: 0.7rem 1.5rem; border-radius: 50px;
+                font-family: 'Oswald', sans-serif; font-size: 1.1rem;
+                z-index: 9999; pointer-events: none;
+                animation: toastIn 0.3s ease;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                white-space: nowrap;
+            `;
+            const modeLabels = {
+                fireworks: 'Ugunsgrēks! 🎆',
+                quiz: 'Viktorīnas mode 🧠',
+                party: 'Ballīte! 🎉',
+                stage: 'Skatuves gaismas 🎤',
+                calm: 'Mierīgs ritms ✨'
+            };
+            toast.textContent = modeLabels[name] || name;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.4s';
+                setTimeout(() => toast.remove(), 400);
+            }, 1800);
+        }
+
+        // Burst emojis from logo center
+        function spawnEmojiBurst(emoji, count) {
+            const logo = document.querySelector('.hero-logo-container');
+            if (!logo) return;
+            const rect = logo.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.textContent = emoji;
+                const angle = (i / count) * 360;
+                const dist = 80 + Math.random() * 120;
+                const dx = Math.cos(angle * Math.PI / 180) * dist;
+                const dy = Math.sin(angle * Math.PI / 180) * dist;
+                el.style.cssText = `
+                    position: fixed;
+                    left: ${cx}px; top: ${cy}px;
+                    font-size: ${14 + Math.random() * 18}px;
+                    pointer-events: none; z-index: 9998;
+                    transform: translate(-50%, -50%);
+                    animation: emojiFly 1.2s ease-out forwards;
+                    --dx: ${dx}px; --dy: ${dy}px;
+                `;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 1300);
+            }
+        }
+
+        // Logo shake animation
+        function shakeLogo() {
+            const logo = document.querySelector('.hero-logo');
+            if (!logo) return;
+            logo.style.animation = 'logoShake 0.5s ease, floatLogo 3s ease-in-out infinite 0.5s';
+            setTimeout(() => {
+                logo.style.animation = 'floatLogo 3s ease-in-out infinite';
+            }, 600);
+        }
+
+        // Switch particles mode
+        function switchParticlesMode(mode) {
+            if (!window.pJSDom || !window.pJSDom[0]) return;
+            const pJS = window.pJSDom[0].pJS;
+
+            // Update colors
+            pJS.fn.vendors.destroypJS();
+            window.pJSDom = [];
+
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: mode.color },
+                    shape: { type: mode.shape },
+                    opacity: { value: 0.7, random: true },
+                    size: { value: mode.size, random: true },
+                    line_linked: {
+                        enable: mode.linked,
+                        distance: 150,
+                        color: mode.lineColor,
+                        opacity: 0.4,
+                        width: 1.5
+                    },
+                    move: {
+                        enable: true,
+                        speed: mode.speed,
+                        direction: mode.name === 'fireworks' ? 'top' : 'none',
+                        random: true,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: { enable: true, mode: 'grab' },
+                        onclick: { enable: true, mode: 'push' },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 140, line_linked: { opacity: 0.6 } },
+                        push: { particles_nb: mode.burst }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+        // Main logo click handler
+        document.querySelector('.hero-logo').addEventListener('click', function(e) {
+            e.preventDefault();
+            currentMode = (currentMode + 1) % logoModes.length;
+            const mode = logoModes[currentMode];
+
+            shakeLogo();
+            spawnEmojiBurst(mode.emoji, 8 + Math.floor(Math.random() * 6));
+            showToast(mode.emoji, mode.name);
+            switchParticlesMode(mode);
+        });
+
+        // Also works on touch
+        document.querySelector('.hero-logo').addEventListener('touchend', function(e) {
+            e.preventDefault();
+            this.click();
+        });
     </script>
+
+    <style>
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes emojiFly {
+            0%   { opacity: 1; transform: translate(-50%, -50%) translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0.3); }
+        }
+        @keyframes logoShake {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            20%       { transform: rotate(-8deg) scale(1.1); }
+            40%       { transform: rotate(8deg) scale(1.15); }
+            60%       { transform: rotate(-5deg) scale(1.1); }
+            80%       { transform: rotate(5deg) scale(1.05); }
+        }
+        .hero-logo {
+            cursor: pointer;
+        }
+        .hero-logo:hover {
+            filter: drop-shadow(0 10px 30px rgba(230,57,70,0.4)) brightness(1.05);
+        }
+    </style>
     
     <script>
         window.cbConfig = {
